@@ -508,38 +508,108 @@ function JobTemplateScreen({onNext,onBack}) {
   );
 }
 
-// REVIEW
+// REVIEW — Full RFQ tabular format
 function ReviewScreen({onNext,onBack}) {
+  const RFQ_ID = "SRZ-BAL-108-001";
+
+  const sections = [
+    {
+      title:"Part A — Job Request",
+      subtitle:"Read-only · This is exactly what vendors will see",
+      icon:"📋",
+      rows:[
+        ["RFQ ID", RFQ_ID, true],
+        ["Job Title","Balcony tile replacement with outdoor anti-skid wood-plank porcelain tiles"],
+        ["Location Type","Apartment Balcony (Semi-covered)"],
+        ["Area","Approx. 108 sq ft (final measurement to be verified on site)"],
+        ["Current Surface Condition","Existing tiles cracked / loose — removal expected before new installation"],
+        ["Drain Outlet","Present — slope must direct water towards drain"],
+        ["Furniture Load","Outdoor seating, storage cabinet, plant pots (moderate static load)"],
+        ["Exposure","Semi-covered balcony with occasional rain splash"],
+        ["Preferred Style","Wood plank tile look"],
+      ]
+    },
+    {
+      title:"Technical Tile Specifications",
+      subtitle:"Auto-generated from your selections",
+      icon:"🔧",
+      rows:[
+        ["Typical Tile Size Range","150×900 mm or 200×1200 mm porcelain plank tiles"],
+        ["Tile Thickness","≥10 mm outdoor-grade porcelain"],
+        ["Slip Resistance","Minimum R10 anti-skid rating"],
+        ["Water Absorption","≤0.5% (outdoor rated porcelain)"],
+        ["Adhesive Spec","C2TE exterior tile adhesive or equivalent"],
+        ["Grout Spec","Polymer modified waterproof grout"],
+      ]
+    },
+    {
+      title:"Scope of Work",
+      subtitle:"Expected installation steps",
+      icon:"📐",
+      rows:[
+        ["Step 1","Remove existing tiles"],
+        ["Step 2","Clean substrate"],
+        ["Step 3","Repair minor cracks"],
+        ["Step 4","Correct slope if required"],
+        ["Step 5","Install tiles using exterior adhesive"],
+        ["Step 6","Apply polymer modified grout"],
+        ["Step 7","Finish edges near walls and drain"],
+      ]
+    },
+    {
+      title:"Timeline & Documentation",
+      subtitle:"",
+      icon:"📅",
+      rows:[
+        ["Timeline","Preferred start within ~2 weeks"],
+        ["Site Photos","Minimum 2 site photos expected (overall view + crack close-up)"],
+        ["Uploaded Files","3 photos attached — view →"],
+      ]
+    },
+  ];
+
   return (
     <>
       <div className="page">
-        <div style={{marginBottom:24}}>
-          <h2 className="anim" style={{fontFamily:"'Sora',sans-serif",fontSize:28,fontWeight:800,color:T.ink,marginBottom:6}}>Review your request before posting</h2>
-          <p className="anim" style={{fontSize:14,color:T.inkMid}}>Here's what vendors will see. Make sure everything looks right.</p>
-        </div>
-        <div className="review-card anim">
-          <div className="review-card-header">
-            <div className="review-card-title">📋 Job Details</div>
-            <button className="btn btn-ghost" style={{padding:"7px 14px",fontSize:12}}>✏️ Edit</button>
+        {/* Header */}
+        <div style={{marginBottom:24}} className="anim">
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:6}}>
+            <h2 style={{fontFamily:"'Sora',sans-serif",fontSize:26,fontWeight:800,color:T.ink}}>Review your request before posting</h2>
           </div>
-          <div className="review-card-body">
-            {[
-              ["Zone & Sub-Branch","Balcony → Apartment Balcony (Semi-Covered)"],
-              ["Current Floor Condition","Existing tiles cracked/loose"],
-              ["Measurements","120 sq. ft (12 × 10 ft)"],
-              ["Functional Prompts","Semi-covered, drain present, heavy furniture planned"],
-              ["Aesthetic Preference","Wood Plank Mimics OR Concrete Grey"],
-              ["Timeline","Soon (1–2 months)"],
-              ["Uploaded Files","3 photos attached"],
-            ].map(([l,v])=>(
-              <div key={l} className="rri">
-                <div className="rri-label">{l}</div>
-                <div className="rri-value" style={l==="Uploaded Files"?{color:T.blue,cursor:"pointer"}:{}}>{l==="Uploaded Files"?"View 3 photos →":v}</div>
+          <p style={{fontSize:14,color:T.inkMid}}>Here's what vendors will see. Make sure everything looks right.</p>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginTop:12,padding:"10px 16px",background:T.blueLight,borderRadius:10,width:"fit-content"}}>
+            <span style={{fontSize:13,fontWeight:700,color:T.blue,fontFamily:"'Sora',sans-serif"}}>RFQ ID:</span>
+            <span style={{fontSize:13,fontWeight:700,color:T.ink,fontFamily:"'Sora',sans-serif",letterSpacing:"0.5px"}}>{RFQ_ID}</span>
+            <span style={{fontSize:11,color:T.inkLight,marginLeft:8}}>Generated · 13 Mar 2026</span>
+          </div>
+        </div>
+
+        {/* RFQ Sections */}
+        {sections.map((sec,si)=>(
+          <div key={sec.title} className="review-card anim" style={{animationDelay:`${si*0.06}s`}}>
+            <div className="review-card-header">
+              <div>
+                <div className="review-card-title">{sec.icon} {sec.title}</div>
+                {sec.subtitle&&<div style={{fontSize:12,color:T.inkLight,marginTop:2}}>{sec.subtitle}</div>}
               </div>
-            ))}
+              {si===0&&<button className="btn btn-ghost" style={{padding:"7px 14px",fontSize:12}}>✏️ Edit</button>}
+            </div>
+            {/* Table */}
+            <table style={{width:"100%",borderCollapse:"collapse"}}>
+              <tbody>
+                {sec.rows.map(([label,value,isId],ri)=>(
+                  <tr key={label} style={{borderBottom:`1px solid ${T.border}`,background:ri%2===0?T.white:T.bg}}>
+                    <td style={{padding:"12px 22px",fontSize:13,fontWeight:600,color:T.inkLight,width:"38%",verticalAlign:"top",whiteSpace:"nowrap"}}>{label}</td>
+                    <td style={{padding:"12px 22px",fontSize:13,fontWeight: isId?700:500,color: label==="Uploaded Files"?T.blue:T.ink,cursor:label==="Uploaded Files"?"pointer":"default",lineHeight:1.6}}>{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div className="broadcast-box anim">
+        ))}
+
+        {/* Broadcast box */}
+        <div className="broadcast-box anim" style={{animationDelay:"0.24s"}}>
           <div style={{fontSize:28}}>📡</div>
           <div className="broadcast-body">
             <h4>Ready to Broadcast to Vendors</h4>
@@ -551,15 +621,31 @@ function ReviewScreen({onNext,onBack}) {
             </div>
           </div>
         </div>
-        <div className="review-card anim">
-          <div className="review-card-body" style={{display:"flex",gap:12,alignItems:"center"}}>
-            <input type="checkbox" defaultChecked style={{width:16,height:16,accentColor:T.blue}}/>
-            <span style={{fontSize:13,color:T.inkMid,lineHeight:1.6}}>I confirm the above details are accurate and agree to Servzo's <span style={{color:T.blue,cursor:"pointer",textDecoration:"underline"}}>Terms of Service</span> and <span style={{color:T.blue,cursor:"pointer",textDecoration:"underline"}}>Vendor Policy</span>.</span>
+
+        {/* Part D confirmation */}
+        <div className="review-card anim" style={{animationDelay:"0.28s"}}>
+          <div className="review-card-header">
+            <div className="review-card-title">✅ Part D — Confirmation</div>
+          </div>
+          <div className="review-card-body">
+            <p style={{fontSize:13,color:T.inkMid,lineHeight:1.7,marginBottom:16}}>
+              By posting this RFQ, you confirm that all details above are accurate. Vendors will quote based on this information.
+              Any material discrepancy found on-site may result in revised pricing.
+            </p>
+            <div style={{display:"flex",gap:12,alignItems:"flex-start"}}>
+              <input type="checkbox" defaultChecked style={{width:16,height:16,accentColor:T.blue,marginTop:2,flexShrink:0}}/>
+              <span style={{fontSize:13,color:T.inkMid,lineHeight:1.6}}>
+                I confirm the above details are accurate and agree to Servzo's{" "}
+                <span style={{color:T.blue,cursor:"pointer",textDecoration:"underline"}}>Terms of Service</span> and{" "}
+                <span style={{color:T.blue,cursor:"pointer",textDecoration:"underline"}}>Vendor Engagement Policy</span>.
+              </span>
+            </div>
           </div>
         </div>
       </div>
+
       <div className="action-bar">
-        <span className="ab-left">Step 3 of 5 · Review & Broadcast</span>
+        <span className="ab-left">Step 3 of 5 · Review & Broadcast · RFQ {RFQ_ID}</span>
         <div className="ab-right">
           <button className="btn btn-ghost" onClick={onBack}>← Edit Details</button>
           <button className="btn btn-green" onClick={onNext}>📡 Confirm & Post RFQ →</button>
@@ -569,8 +655,139 @@ function ReviewScreen({onNext,onBack}) {
   );
 }
 
+// VIEW QUOTE MODAL
+function ViewQuoteModal({vendor, onClose}) {
+  const lineItems = {
+    1: [
+      {category:"Demolition & Prep",  items:[
+        {name:"Old tile removal (108 sqft)",   qty:"108 sqft", rate:"₹35/sqft",  total:"₹3,780"},
+        {name:"Substrate cleaning & levelling",qty:"1 job",    rate:"₹2,500",    total:"₹2,500"},
+        {name:"Crack repair (minor)",          qty:"3 patches",rate:"₹400/patch",total:"₹1,200"},
+        {name:"Slope correction (screed)",     qty:"1 job",    rate:"₹1,800",    total:"₹1,800"},
+      ], subtotal:"₹9,280"},
+      {category:"Materials",  items:[
+        {name:"Porcelain plank tiles 150×900mm R10",qty:"12 boxes (≈120 sqft)",rate:"₹1,400/box",total:"₹16,800"},
+        {name:"C2TE exterior adhesive",            qty:"4 bags",              rate:"₹620/bag",  total:"₹2,480"},
+        {name:"Polymer modified waterproof grout", qty:"3 bags",              rate:"₹480/bag",  total:"₹1,440"},
+        {name:"Edge trims & finishing strips",     qty:"1 lot",               rate:"₹900",      total:"₹900"},
+      ], subtotal:"₹21,620"},
+      {category:"Labour & Installation",  items:[
+        {name:"Tile laying (108 sqft)",            qty:"108 sqft", rate:"₹55/sqft",   total:"₹5,940"},
+        {name:"Grouting & finishing",              qty:"108 sqft", rate:"₹12/sqft",   total:"₹1,296"},
+        {name:"Edge & drain area detailing",       qty:"1 job",    rate:"₹800",       total:"₹800"},
+        {name:"Clean-up & site clearance",         qty:"1 job",    rate:"₹500",       total:"₹500"},
+      ], subtotal:"₹8,536"},
+      {category:"Optional Add-ons (Quoted)",  items:[
+        {name:"Waterproof membrane coating",       qty:"108 sqft", rate:"₹28/sqft",   total:"₹3,024 (optional)"},
+        {name:"Anti-fungal grout upgrade",         qty:"3 bags",   rate:"₹120 extra/bag",total:"₹360 (optional)"},
+      ], subtotal:"₹3,384 (if selected)"},
+    ],
+    2: [
+      {category:"Demolition & Prep", items:[
+        {name:"Old tile removal (108 sqft)",   qty:"108 sqft", rate:"₹30/sqft",  total:"₹3,240"},
+        {name:"Substrate cleaning",            qty:"1 job",    rate:"₹1,800",    total:"₹1,800"},
+        {name:"Slope correction (screed)",     qty:"1 job",    rate:"₹1,600",    total:"₹1,600"},
+      ], subtotal:"₹6,640"},
+      {category:"Labour & Installation", items:[
+        {name:"Tile laying — customer supplies tiles",qty:"108 sqft",rate:"₹50/sqft",total:"₹5,400"},
+        {name:"Adhesive (C2TE)",                    qty:"4 bags",   rate:"₹620/bag",total:"₹2,480"},
+        {name:"Grouting & finishing",               qty:"108 sqft", rate:"₹14/sqft",total:"₹1,512"},
+        {name:"Edge & drain detailing",             qty:"1 job",    rate:"₹750",    total:"₹750"},
+        {name:"Clean-up",                           qty:"1 job",    rate:"₹500",    total:"₹500"},
+      ], subtotal:"₹10,642"},
+      {category:"Overheads & Profit", items:[
+        {name:"Site supervision & tools",           qty:"—",    rate:"—",        total:"₹16,918"},
+      ], subtotal:"₹16,918"},
+    ],
+    3: [
+      {category:"Demolition & Prep", items:[
+        {name:"Old tile removal",                  qty:"108 sqft", rate:"₹25/sqft",  total:"₹2,700"},
+        {name:"Basic substrate cleaning",          qty:"1 job",    rate:"₹1,200",    total:"₹1,200"},
+      ], subtotal:"₹3,900"},
+      {category:"Materials", items:[
+        {name:"Porcelain plank tiles (economy range)",qty:"12 boxes",rate:"₹900/box",total:"₹10,800"},
+        {name:"Standard exterior adhesive",         qty:"4 bags",   rate:"₹520/bag", total:"₹2,080"},
+        {name:"Standard grout",                     qty:"3 bags",   rate:"₹380/bag", total:"₹1,140"},
+      ], subtotal:"₹14,020"},
+      {category:"Labour", items:[
+        {name:"Tile laying",                        qty:"108 sqft", rate:"₹40/sqft", total:"₹4,320"},
+        {name:"Grouting & clean-up",                qty:"1 job",    rate:"₹1,500",   total:"₹1,500"},
+        {name:"Basic edge finishing",               qty:"1 job",    rate:"₹600",     total:"₹600"},
+      ], subtotal:"₹6,420"},
+      {category:"Overheads", items:[
+        {name:"Tools, travel, misc.",               qty:"—",        rate:"—",        total:"₹4,660"},
+      ], subtotal:"₹4,660"},
+    ],
+  };
+
+  const data = lineItems[vendor.id] || lineItems[1];
+  const grandTotal = vendor.price;
+
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(13,27,42,0.6)",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={onClose}>
+      <div style={{background:T.white,borderRadius:16,width:"100%",maxWidth:740,maxHeight:"90vh",overflow:"auto",boxShadow:"0 24px 80px rgba(0,0,0,0.25)"}} onClick={e=>e.stopPropagation()}>
+        {/* Modal header */}
+        <div style={{padding:"20px 24px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center",position:"sticky",top:0,background:T.white,zIndex:10}}>
+          <div>
+            <div style={{fontFamily:"'Sora',sans-serif",fontSize:17,fontWeight:800,color:T.ink}}>Itemised Quote — {vendor.name}</div>
+            <div style={{fontSize:12,color:T.inkLight,marginTop:2}}>All amounts in INR · Includes materials, labour & clean-up unless noted</div>
+          </div>
+          <button onClick={onClose} style={{border:`2px solid ${T.border}`,background:"none",borderRadius:8,padding:"6px 12px",cursor:"pointer",fontSize:13,color:T.inkMid,fontWeight:700}}>✕ Close</button>
+        </div>
+
+        <div style={{padding:"20px 24px"}}>
+          {data.map((section,si)=>(
+            <div key={section.category} style={{marginBottom:20}}>
+              <div style={{fontFamily:"'Sora',sans-serif",fontSize:13,fontWeight:700,color:T.blue,textTransform:"uppercase",letterSpacing:"0.8px",marginBottom:8}}>{section.category}</div>
+              <table style={{width:"100%",borderCollapse:"collapse",background:T.white,borderRadius:10,overflow:"hidden",border:`1px solid ${T.border}`}}>
+                <thead>
+                  <tr style={{background:T.blueLight}}>
+                    {["Line Item","Qty","Rate","Total"].map(h=>(
+                      <th key={h} style={{padding:"9px 14px",fontSize:11,fontWeight:700,color:T.blue,textAlign:h==="Total"?"right":"left",fontFamily:"'Sora',sans-serif",letterSpacing:"0.5px"}}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.items.map((item,ii)=>(
+                    <tr key={item.name} style={{borderTop:`1px solid ${T.border}`,background:ii%2===0?T.white:T.bg}}>
+                      <td style={{padding:"11px 14px",fontSize:13,color:T.ink,fontWeight:500}}>{item.name}</td>
+                      <td style={{padding:"11px 14px",fontSize:12,color:T.inkLight}}>{item.qty}</td>
+                      <td style={{padding:"11px 14px",fontSize:12,color:T.inkLight}}>{item.rate}</td>
+                      <td style={{padding:"11px 14px",fontSize:13,color:T.ink,fontWeight:700,textAlign:"right"}}>{item.total}</td>
+                    </tr>
+                  ))}
+                  <tr style={{borderTop:`2px solid ${T.border}`,background:T.blueLight}}>
+                    <td colSpan={3} style={{padding:"10px 14px",fontSize:13,fontWeight:700,color:T.blue,fontFamily:"'Sora',sans-serif"}}>Section Subtotal</td>
+                    <td style={{padding:"10px 14px",fontSize:13,fontWeight:800,color:T.blue,textAlign:"right",fontFamily:"'Sora',sans-serif"}}>{section.subtotal}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
+
+          {/* Grand total */}
+          <div style={{background:`linear-gradient(135deg,${T.blue},#1A3AAF)`,borderRadius:12,padding:"18px 22px",display:"flex",justifyContent:"space-between",alignItems:"center",color:"white",marginTop:8}}>
+            <div>
+              <div style={{fontFamily:"'Sora',sans-serif",fontSize:14,fontWeight:700,opacity:0.8}}>Grand Total (All-in Estimate)</div>
+              <div style={{fontSize:12,opacity:0.65,marginTop:2}}>Excl. optional add-ons · GST as applicable</div>
+            </div>
+            <div style={{fontFamily:"'Sora',sans-serif",fontSize:28,fontWeight:800}}>{grandTotal}</div>
+          </div>
+
+          {/* Vendor confirmation note */}
+          <div style={{marginTop:14,padding:"12px 16px",background:T.bg,borderRadius:10,border:`1px solid ${T.border}`,fontSize:12,color:T.inkMid,lineHeight:1.6}}>
+            <strong style={{color:T.ink}}>Vendor Confirmation:</strong> {vendor.name} confirms that the quoted price includes materials, labour, tools, tile removal, surface preparation, installation, and clean-up unless explicitly stated otherwise above.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // QUOTES
 function QuotesScreen({onVendor,onBack}) {
+  const [viewQuoteVendor,setViewQuoteVendor]=useState(null);
+
   const vendors=[
     {id:1,emoji:"👑",bg:"#FEF9C3",name:"TileKing Pro",loc:"Kothrud, Pune",rating:4.8,reviews:312,jobs:480,price:"₹38,500",eta:"2–3 days",warranty:"2-year workmanship",verified:true,best:true,note:"Includes old tile removal & levelling. Premium grout included."},
     {id:2,emoji:"🏙️",bg:"#DBEAFE",name:"Urban Tiles & Co.",loc:"Baner, Pune",rating:4.5,reviews:187,jobs:290,price:"₹34,200",eta:"3–4 days",warranty:"1-year workmanship",verified:true,best:false,note:"Does not include tile supply. Customer to arrange tiles."},
@@ -578,14 +795,15 @@ function QuotesScreen({onVendor,onBack}) {
   ];
   return (
     <>
+      {viewQuoteVendor && <ViewQuoteModal vendor={viewQuoteVendor} onClose={()=>setViewQuoteVendor(null)}/>}
       <div className="page">
         <div style={{marginBottom:20}}>
           <h2 className="anim" style={{fontFamily:"'Sora',sans-serif",fontSize:28,fontWeight:800,color:T.ink,marginBottom:6}}>Vendor Quotes Received</h2>
           <p className="anim" style={{fontSize:14,color:T.inkMid}}>3 vendors responded to your Floor Tiling job · Compare and choose the best fit.</p>
         </div>
         <div className="compare-bar anim">
-          <span style={{fontSize:13,color:T.inkMid}}>Comparing: <b style={{color:T.ink}}>Balcony Tiling · 120 sqft · Apartment Balcony · Semi-Covered</b></span>
-          <span style={{fontSize:12,color:T.inkLight}}>Posted 2 hrs ago</span>
+          <span style={{fontSize:13,color:T.inkMid}}>Comparing: <b style={{color:T.ink}}>Balcony Tiling · 108 sqft · Apartment Balcony · Semi-Covered</b></span>
+          <span style={{fontSize:12,color:T.inkLight}}>Posted 2 hrs ago · RFQ SRZ-BAL-108-001</span>
         </div>
         <div className="quotes-grid">
           {vendors.map((v,i)=>(
@@ -605,22 +823,101 @@ function QuotesScreen({onVendor,onBack}) {
               </div>
               <div className="qv-footer">
                 <button className="btn-sm btn-sm-p" onClick={()=>onVendor(v)}>Accept Quote</button>
-                <button className="btn-sm btn-sm-o" onClick={()=>onVendor(v)}>View Profile</button>
+                <button className="btn-sm btn-sm-o" style={{flex:"none"}} onClick={()=>setViewQuoteVendor(v)}>View Quote</button>
+                <button className="btn-sm btn-sm-o" style={{flex:"none"}} onClick={()=>onVendor(v)}>Profile</button>
               </div>
             </div>
           ))}
         </div>
       </div>
       <div className="action-bar">
-        <span className="ab-left">Step 4 of 5 · 3 Quotes Received</span>
+        <span className="ab-left">Step 4 of 5 · 3 Quotes Received · RFQ SRZ-BAL-108-001</span>
         <div className="ab-right"><button className="btn btn-ghost" onClick={onBack}>← Back</button></div>
       </div>
     </>
   );
 }
 
-// VENDOR PROFILE
-function VendorProfile({vendor,onBack}) {
+// CONFIRMATION SCREEN
+function ConfirmationScreen({vendor}) {
+  return (
+    <div className="page">
+      <div className="anim" style={{maxWidth:640,margin:"0 auto",textAlign:"center",paddingTop:40}}>
+        <div style={{width:80,height:80,borderRadius:"50%",background:T.greenLight,border:`3px solid ${T.greenBorder}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:36,margin:"0 auto 24px"}}>✓</div>
+        <h2 style={{fontFamily:"'Sora',sans-serif",fontSize:28,fontWeight:800,color:T.ink,marginBottom:8}}>Job Awarded to {vendor.name}!</h2>
+        <p style={{fontSize:15,color:T.inkMid,marginBottom:32,lineHeight:1.6}}>Your balcony tiling job has been confirmed. The vendor has been notified and will contact you within 24 hours to schedule the site visit.</p>
+
+        {/* Summary card */}
+        <div style={{background:T.white,borderRadius:16,border:`1.5px solid ${T.border}`,overflow:"hidden",marginBottom:20,textAlign:"left"}}>
+          <div style={{background:`linear-gradient(135deg,${T.blue},#1A3AAF)`,padding:"20px 24px",color:"white",display:"flex",gap:16,alignItems:"center"}}>
+            <div style={{width:52,height:52,borderRadius:12,background:"rgba(255,255,255,0.15)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>{vendor.emoji}</div>
+            <div>
+              <div style={{fontFamily:"'Sora',sans-serif",fontSize:17,fontWeight:800}}>{vendor.name}</div>
+              <div style={{fontSize:13,opacity:0.75,marginTop:2}}>{vendor.loc} · {vendor.verified?"✓ Verified":""}</div>
+            </div>
+            <div style={{marginLeft:"auto",textAlign:"right"}}>
+              <div style={{fontFamily:"'Sora',sans-serif",fontSize:22,fontWeight:800}}>{vendor.price}</div>
+              <div style={{fontSize:11,opacity:0.65}}>Confirmed total</div>
+            </div>
+          </div>
+          <table style={{width:"100%",borderCollapse:"collapse"}}>
+            {[
+              ["RFQ ID","SRZ-BAL-108-001"],
+              ["Job","Balcony Tile Replacement — Apartment Balcony"],
+              ["Vendor","TileKing Pro · Kothrud, Pune"],
+              ["Start Date","Within 2 weeks (to be confirmed on call)"],
+              ["Duration","2–3 working days"],
+              ["Warranty","2-year workmanship warranty"],
+              ["Payment Terms","50% advance · 50% on completion"],
+              ["Quote Validity","Valid for 14 days from acceptance"],
+            ].map(([l,v],i)=>(
+              <tr key={l} style={{borderBottom:`1px solid ${T.border}`,background:i%2===0?T.white:T.bg}}>
+                <td style={{padding:"11px 20px",fontSize:12,fontWeight:600,color:T.inkLight,width:"40%"}}>{l}</td>
+                <td style={{padding:"11px 20px",fontSize:13,fontWeight:600,color:T.ink}}>{v}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+
+        {/* Next steps */}
+        <div style={{background:T.blueLight,borderRadius:12,padding:"18px 22px",textAlign:"left",marginBottom:20}}>
+          <div style={{fontFamily:"'Sora',sans-serif",fontSize:14,fontWeight:700,color:T.blue,marginBottom:12}}>📋 What happens next?</div>
+          {[
+            ["1","Vendor calls you within 24 hrs to confirm site visit date"],
+            ["2","Site measurement & material confirmation on Day 1"],
+            ["3","Work begins as per agreed schedule"],
+            ["4","You rate & review on completion — helps other customers"],
+          ].map(([num,step])=>(
+            <div key={num} style={{display:"flex",gap:12,alignItems:"flex-start",marginBottom:10}}>
+              <div style={{width:22,height:22,borderRadius:"50%",background:T.blue,color:"white",fontSize:11,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontFamily:"'Sora',sans-serif"}}>{num}</div>
+              <span style={{fontSize:13,color:T.inkMid,lineHeight:1.5}}>{step}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{display:"flex",gap:12,justifyContent:"center"}}>
+          <button className="btn btn-ghost">📄 Download Job Order PDF</button>
+          <button className="btn btn-primary">Go to My Jobs →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// VENDOR PROFILE with acceptance animation
+function VendorProfile({vendor,onBack,onConfirmed}) {
+  const [accepting,setAccepting]=useState(false);
+  const [showTick,setShowTick]=useState(false);
+  const [confirmed,setConfirmed]=useState(false);
+
+  const handleAccept=()=>{
+    setAccepting(true);
+    setTimeout(()=>setShowTick(true),200);
+    setTimeout(()=>{ setShowTick(false); setAccepting(false); setConfirmed(true); },2200);
+  };
+
+  if(confirmed) return <ConfirmationScreen vendor={vendor}/>;
+
   const reviews=[
     {name:"Ananya S.",color:"#1565C0",rating:5,date:"Feb 2026",text:"Absolutely immaculate work. The tiles are perfectly aligned and the grouting is flawless. TileKing Pro finished ahead of schedule and cleaned up completely. Will hire again without question."},
     {name:"Rahul M.",color:"#2E7D32",rating:5,date:"Jan 2026",text:"Very professional team. They noticed a drainage slope issue the previous contractor had missed and fixed it as part of the job. The bathroom looks brand new."},
@@ -632,8 +929,43 @@ function VendorProfile({vendor,onBack}) {
     {icon:"🏊",name:"Outdoor Pool Deck — Viman Nagar",meta:"Non-slip Travertine · 480 sqft · Jan 2026",price:"₹1,12,000"},
     {icon:"🏢",name:"Commercial Lobby — Hinjewadi IT Park",meta:"Marble 600×600 · 1200 sqft · Dec 2025",price:"₹2,80,000"},
   ];
+
   return (
     <>
+      {/* Full-screen acceptance animation overlay */}
+      {accepting && (
+        <div style={{
+          position:"fixed",inset:0,zIndex:999,
+          background:"rgba(255,255,255,0.96)",
+          display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+          animation:"fadeIn 0.2s ease",
+        }}>
+          <style>{`
+            @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+            @keyframes tickPop{0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(4deg);opacity:1} 100%{transform:scale(1) rotate(0deg);opacity:1}}
+            @keyframes ringExpand{0%{transform:scale(0.5);opacity:1} 100%{transform:scale(2.2);opacity:0}}
+            @keyframes textFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+          `}</style>
+          {showTick && (
+            <>
+              {/* Expanding ring */}
+              <div style={{position:"absolute",width:140,height:140,borderRadius:"50%",border:`4px solid ${T.green}`,opacity:0,animation:"ringExpand 0.8s 0.1s ease-out forwards"}}/>
+              <div style={{position:"absolute",width:140,height:140,borderRadius:"50%",border:`2px solid ${T.green}`,opacity:0,animation:"ringExpand 0.9s 0.25s ease-out forwards"}}/>
+              {/* Tick circle */}
+              <div style={{width:120,height:120,borderRadius:"50%",background:T.green,display:"flex",alignItems:"center",justifyContent:"center",animation:"tickPop 0.5s cubic-bezier(.34,1.56,.64,1) both",boxShadow:`0 12px 48px rgba(46,125,50,0.35)`}}>
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                  <path d="M12 28 L24 40 L44 18" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="60" strokeDashoffset="0" style={{animation:"draw 0.4s 0.2s ease forwards"}}/>
+                </svg>
+              </div>
+              <div style={{marginTop:28,textAlign:"center",animation:"textFadeUp 0.4s 0.3s ease both"}}>
+                <div style={{fontFamily:"'Sora',sans-serif",fontSize:22,fontWeight:800,color:T.ink,marginBottom:6}}>{vendor.name} Accepted!</div>
+                <div style={{fontSize:14,color:T.inkMid}}>Setting up your job order…</div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       <div className="page">
         <div className="profile-hero anim">
           <div className="profile-av">{vendor.emoji}</div>
@@ -697,7 +1029,7 @@ function VendorProfile({vendor,onBack}) {
         <span className="ab-left">Step 5 of 5 · {vendor.name} · Verified Vendor</span>
         <div className="ab-right">
           <button className="btn btn-ghost" onClick={onBack}>← Back to Quotes</button>
-          <button className="btn btn-green">✅ Accept This Quote</button>
+          <button className="btn btn-green" onClick={handleAccept} disabled={accepting}>✅ Accept This Quote</button>
         </div>
       </div>
     </>
@@ -738,7 +1070,7 @@ export default function App() {
       {screen===1&&<JobTemplateScreen onNext={()=>go(2)} onBack={()=>go(0)}/>}
       {screen===2&&<ReviewScreen onNext={()=>go(3)} onBack={()=>go(1)}/>}
       {screen===3&&<QuotesScreen onVendor={v=>{setVendor(v);go(4);}} onBack={()=>go(2)}/>}
-      {screen===4&&vendor&&<VendorProfile vendor={vendor} onBack={()=>go(3)}/>}
+      {screen===4&&vendor&&<VendorProfile vendor={vendor} onBack={()=>go(3)} onConfirmed={()=>go(5)}/>}
     </>
   );
 }
