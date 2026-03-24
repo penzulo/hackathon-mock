@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TradeIndexRouteImport } from './routes/trade/index'
+import { Route as ProjectIndexRouteImport } from './routes/project/index'
 import { Route as TradeTradeIdRouteImport } from './routes/trade/$tradeId'
+import { Route as ProjectProjectIdIndexRouteImport } from './routes/project/$projectId/index'
+import { Route as ProjectProjectIdReviewRouteImport } from './routes/project/$projectId/review'
+import { Route as ProjectProjectIdQuotesRouteImport } from './routes/project/$projectId/quotes'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +27,98 @@ const TradeIndexRoute = TradeIndexRouteImport.update({
   path: '/trade/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectIndexRoute = ProjectIndexRouteImport.update({
+  id: '/project/',
+  path: '/project/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TradeTradeIdRoute = TradeTradeIdRouteImport.update({
   id: '/trade/$tradeId',
   path: '/trade/$tradeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectProjectIdIndexRoute = ProjectProjectIdIndexRouteImport.update({
+  id: '/project/$projectId/',
+  path: '/project/$projectId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectProjectIdReviewRoute = ProjectProjectIdReviewRouteImport.update({
+  id: '/project/$projectId/review',
+  path: '/project/$projectId/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectProjectIdQuotesRoute = ProjectProjectIdQuotesRouteImport.update({
+  id: '/project/$projectId/quotes',
+  path: '/project/$projectId/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/project/': typeof ProjectIndexRoute
   '/trade/': typeof TradeIndexRoute
+  '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
+  '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/project': typeof ProjectIndexRoute
   '/trade': typeof TradeIndexRoute
+  '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
+  '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/project/$projectId': typeof ProjectProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/project/': typeof ProjectIndexRoute
   '/trade/': typeof TradeIndexRoute
+  '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
+  '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/trade/$tradeId' | '/trade/'
+  fullPaths:
+    | '/'
+    | '/trade/$tradeId'
+    | '/project/'
+    | '/trade/'
+    | '/project/$projectId/quotes'
+    | '/project/$projectId/review'
+    | '/project/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/trade/$tradeId' | '/trade'
-  id: '__root__' | '/' | '/trade/$tradeId' | '/trade/'
+  to:
+    | '/'
+    | '/trade/$tradeId'
+    | '/project'
+    | '/trade'
+    | '/project/$projectId/quotes'
+    | '/project/$projectId/review'
+    | '/project/$projectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/trade/$tradeId'
+    | '/project/'
+    | '/trade/'
+    | '/project/$projectId/quotes'
+    | '/project/$projectId/review'
+    | '/project/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TradeTradeIdRoute: typeof TradeTradeIdRoute
+  ProjectIndexRoute: typeof ProjectIndexRoute
   TradeIndexRoute: typeof TradeIndexRoute
+  ProjectProjectIdQuotesRoute: typeof ProjectProjectIdQuotesRoute
+  ProjectProjectIdReviewRoute: typeof ProjectProjectIdReviewRoute
+  ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +137,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TradeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/project/': {
+      id: '/project/'
+      path: '/project'
+      fullPath: '/project/'
+      preLoaderRoute: typeof ProjectIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trade/$tradeId': {
       id: '/trade/$tradeId'
       path: '/trade/$tradeId'
       fullPath: '/trade/$tradeId'
       preLoaderRoute: typeof TradeTradeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/$projectId/': {
+      id: '/project/$projectId/'
+      path: '/project/$projectId'
+      fullPath: '/project/$projectId/'
+      preLoaderRoute: typeof ProjectProjectIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/$projectId/review': {
+      id: '/project/$projectId/review'
+      path: '/project/$projectId/review'
+      fullPath: '/project/$projectId/review'
+      preLoaderRoute: typeof ProjectProjectIdReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/$projectId/quotes': {
+      id: '/project/$projectId/quotes'
+      path: '/project/$projectId/quotes'
+      fullPath: '/project/$projectId/quotes'
+      preLoaderRoute: typeof ProjectProjectIdQuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +178,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TradeTradeIdRoute: TradeTradeIdRoute,
+  ProjectIndexRoute: ProjectIndexRoute,
   TradeIndexRoute: TradeIndexRoute,
+  ProjectProjectIdQuotesRoute: ProjectProjectIdQuotesRoute,
+  ProjectProjectIdReviewRoute: ProjectProjectIdReviewRoute,
+  ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
