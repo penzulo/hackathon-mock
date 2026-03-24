@@ -1,0 +1,178 @@
+
+import { TRADE_COLORS } from './theme';
+import type { TradeDef, TradeDefsMap } from '../types';
+
+export const TRADE_DEFS: TradeDefsMap = {
+  tiling: {
+    id: 'tiling', icon: '🪵', label: 'Tiling & Flooring',
+    desc: 'Floor tiles, wall tiles, outdoor tiling',
+    color: TRADE_COLORS.tiling, rfqId: 'SRZ-TIL',
+    summary: [
+      ['Zone', 'Bathroom Floor'],
+      ['Surface Condition', 'Existing tiles cracked/loose'],
+      ['Area', '80 sq ft'],
+      ['Tile Style', 'Luxury Marble Veins'],
+      ['Tile Spec', 'Porcelain 600×600mm, ≥8mm'],
+      ['Adhesive', 'C2TE waterproof adhesive'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  plumbing: {
+    id: 'plumbing', icon: '🔧', label: 'Plumbing',
+    desc: 'Pipes, fixtures, drainage, water lines',
+    color: TRADE_COLORS.plumbing, rfqId: 'SRZ-PLB',
+    summary: [
+      ['Plumbing Type', 'Full bathroom fit-out'],
+      ['Fixtures', 'WC, basin, shower, bathtub'],
+      ['Pipe Material', 'CPVC hot & cold lines'],
+      ['Hot Water', 'New geyser connection required'],
+      ['Drainage', 'New floor trap + wall drain'],
+      ['Current Condition', 'Old GI pipes to be replaced'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  electrical: {
+    id: 'electrical', icon: '⚡', label: 'Electrical',
+    desc: 'Wiring, fixtures, switchboard, exhaust',
+    color: TRADE_COLORS.electrical, rfqId: 'SRZ-ELC',
+    summary: [
+      ['Work Type', 'Bathroom electrical fit-out'],
+      ['Points Required', '6 (2 lights, exhaust, geyser, shaver, ELCB)'],
+      ['Wiring', 'Concealed FR wiring'],
+      ['DB Box', 'Existing DB, 2 new MCBs needed'],
+      ['Earthing', 'Earthing for geyser mandatory'],
+      ['Fixtures', 'LED downlights, exhaust fan supplied by client'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  painting: {
+    id: 'painting', icon: '🎨', label: 'Painting',
+    desc: 'Walls, ceiling, waterproof paint',
+    color: TRADE_COLORS.painting, rfqId: 'SRZ-PNT',
+    summary: [
+      ['Paint Type', 'Moisture-resistant / bathroom grade'],
+      ['Surfaces', 'Ceiling + 2 non-tiled walls'],
+      ['Area', '~120 sq ft (walls + ceiling)'],
+      ['Finish', 'Matte / satin finish'],
+      ['Colour', 'White / off-white (client to confirm)'],
+      ['Coats', '2 coats primer + 2 finish coats'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  waterproofing: {
+    id: 'waterproofing', icon: '🛡️', label: 'Waterproofing',
+    desc: 'Membrane coating, wet area protection',
+    color: TRADE_COLORS.waterproofing, rfqId: 'SRZ-WPF',
+    summary: [
+      ['Application Area', 'Full bathroom — floor + walls to 1.5m height'],
+      ['Method', 'Crystalline waterproofing membrane'],
+      ['Coat Layers', '2-coat system'],
+      ['Coverage', '~200 sq ft (floor + walls)'],
+      ['Curing Time', '48 hrs before tiling'],
+      ['Guarantee', '5-year waterproofing warranty expected'],
+      ['Timeline', 'Before tiling (critical sequence)'],
+    ],
+  },
+};
+
+export const BUILDING_TRADE_DEFS: TradeDefsMap = {
+  excavation: {
+    id: 'excavation', icon: '🏗️', label: 'Excavation & Civil',
+    desc: 'Foundation, structural work, RCC',
+    color: { bg: '#FEF3C7', accent: '#D97706', light: '#FDE68A' },
+    rfqId: 'SRZ-EXC',
+    summary: [
+      ['Work Type', 'Foundation excavation + PCC'],
+      ['Plot Area', '1200 sq ft'],
+      ['Soil Type', 'Black cotton soil — needs treatment'],
+      ['Foundation', 'Strip foundation with RCC columns'],
+      ['Depth', '6 ft below GL'],
+      ['Equipment', 'JCB + manual labour'],
+      ['Timeline', 'Urgent (within 2 weeks)'],
+    ],
+  },
+  structural: {
+    id: 'structural', icon: '🧱', label: 'Structural / Masonry',
+    desc: 'Brickwork, columns, slabs, beams',
+    color: { bg: '#F0FDF4', accent: '#16A34A', light: '#BBF7D0' },
+    rfqId: 'SRZ-STR',
+    summary: [
+      ['Work Type', 'Load-bearing structure — G+2'],
+      ['Built-up Area', '3600 sq ft total'],
+      ['Material', 'AAC blocks + M25 grade concrete'],
+      ['No. of Floors', 'Ground + 2 upper floors'],
+      ['Columns', '24 RCC columns as per drawing'],
+      ['Slab Thickness', '150mm RCC slab each floor'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  plumbing: {
+    ...TRADE_DEFS.plumbing,
+    summary: [
+      ['Scope', 'Full building plumbing — all 3 floors'],
+      ['Bathrooms', '6 bathrooms + 1 kitchen'],
+      ['Pipe Material', 'CPVC for hot, UPVC for cold & drainage'],
+      ['Overhead Tank', '10,000L capacity + pump'],
+      ['Drainage', 'STP connection + rainwater harvesting'],
+      ['Fixtures', 'Supplied by client'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  electrical: {
+    ...TRADE_DEFS.electrical,
+    summary: [
+      ['Scope', 'Complete building wiring — G+2'],
+      ['Total Load', '15kW sanctioned load'],
+      ['DB Boards', '1 main + 3 floor distribution boards'],
+      ['Wiring', 'Concealed FRLS wiring throughout'],
+      ['Earthing', 'Copper earthing — 2 pits'],
+      ['Solar Ready', 'Provision for 5kW rooftop solar'],
+      ['Timeline', 'Soon (1–2 months)'],
+    ],
+  },
+  interior: {
+    id: 'interior', icon: '🪑', label: 'Interior Finishing',
+    desc: 'Flooring, painting, false ceiling, carpentry',
+    color: { bg: '#F5F3FF', accent: '#7C3AED', light: '#EDE9FE' },
+    rfqId: 'SRZ-INT',
+    summary: [
+      ['Scope', 'Full interior fit-out — all 3 floors'],
+      ['Flooring', 'Vitrified tiles — living areas; wooden laminate — bedrooms'],
+      ['Painting', 'Asian Paints Royale — interior + exterior'],
+      ['Carpentry', 'Modular kitchen + wardrobes in 3 bedrooms'],
+      ['False Ceiling', 'POP false ceiling in living + master bedroom'],
+      ['Elevation', 'Front elevation cladding + texture paint'],
+      ['Timeline', 'Flexible (2–3 months)'],
+    ],
+  },
+};
+
+export const PROJECTS = [
+  {
+    id: 'bathroom',
+    icon: '🚿',
+    title: 'Bathroom Renovation',
+    desc: 'Complete bathroom fit-out — tiling, plumbing, electrical, painting and waterproofing in one unified RFQ.',
+    color: '#3B5BDB',
+    rfqId: 'SRZ-BTH',
+    trades: ['Tiling', 'Plumbing', 'Electrical', 'Painting', 'Waterproofing'],
+    tradeIds: ['tiling', 'plumbing', 'electrical', 'painting', 'waterproofing'],
+    estimate: '₹60k – ₹1.2L',
+    duration: '2–4 weeks',
+  },
+  {
+    id: 'building',
+    icon: '🏗️',
+    title: 'New Building Construction',
+    desc: 'Full construction — excavation, structural, plumbing, electrical and interior finishing for G+2 buildings.',
+    color: '#7C3AED',
+    rfqId: 'SRZ-BLD',
+    trades: ['Excavation', 'Structural', 'Plumbing', 'Electrical', 'Interior'],
+    tradeIds: ['excavation', 'structural', 'plumbing', 'electrical', 'interior'],
+    estimate: '₹25L – ₹45L',
+    duration: '12–18 months',
+  },
+];
+
+export const SINGLE_STEPS = ['Job Details', 'Review', 'Get Quotes', 'Vendor'];
+export const PROJECT_STEPS = ['Project Type', 'Trade Templates', 'Review', 'Quotes'];
