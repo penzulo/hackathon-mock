@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { Topbar } from "../components/layout/Topbar";
-import { fonts, globalCss } from "../lib/theme";
+import { Topbar } from "@/components/layout/Topbar";
+import { fonts, globalCss } from "@/lib/theme";
 
 // Import devtools only in development
 const TanStackRouterDevtools = import.meta.env.PROD

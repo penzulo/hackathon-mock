@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { FlowSteps } from "../../components/layout/FlowSteps";
-import { T, TRADE_COLORS } from "../../lib/theme";
-import { SINGLE_STEPS } from "../../lib/tradeDefs";
+import { FlowSteps } from "@/components/layout/FlowSteps";
+import { T, TRADE_COLORS } from "@/lib/theme";
+import { SINGLE_STEPS } from "@/lib/tradeDefs";
 
 export const Route = createFileRoute("/trade/")({
 	component: TradeSelectionScreen,
@@ -81,6 +81,7 @@ function TradeSelectionScreen() {
 					>
 						{TRADE_OPTIONS.map((t) => (
 							<button
+								type="button"
 								key={t.id}
 								className={`option-row${selected === t.id ? " selected" : ""}`}
 								onClick={() => setSelected(t.id)}
@@ -96,7 +97,7 @@ function TradeSelectionScreen() {
 										selected === t.id
 											? {
 													background: "white",
-													borderColor: t.color.accent + "50",
+													borderColor: `${t.color.accent}50`,
 												}
 											: {}
 									}
@@ -116,6 +117,7 @@ function TradeSelectionScreen() {
 						))}
 
 						<button
+							type="button"
 							className="option-row not-sure"
 							onClick={() => navigate({ to: "/project" })}
 						>
@@ -142,12 +144,14 @@ function TradeSelectionScreen() {
 				<div className="slide-nav-left">Select a trade to continue</div>
 				<div className="slide-nav-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() => navigate({ to: "/" })}
 					>
 						← Back
 					</button>
 					<button
+						type="button"
 						className="btn btn-primary"
 						disabled={!selected}
 						onClick={handleNext}

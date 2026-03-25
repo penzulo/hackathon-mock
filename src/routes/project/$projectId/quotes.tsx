@@ -1,13 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { FlowSteps } from "../../../components/layout/FlowSteps";
-import { T } from "../../../lib/theme";
-import {
-	BUILDING_TRADE_DEFS,
-	PROJECT_STEPS,
-	PROJECTS,
-	TRADE_DEFS,
-} from "../../../lib/tradeDefs";
+import { FlowSteps } from "@/components/layout/FlowSteps";
+import { PROJECT_STEPS, PROJECTS } from "@/lib/tradeDefs";
 
 export const Route = createFileRoute("/project/$projectId/quotes")({
 	component: ProjectQuotesScreen,
@@ -30,6 +23,7 @@ function ProjectQuotesScreen() {
 				<span className="ab-left">{project.rfqId} · Project Quotes</span>
 				<div className="ab-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() =>
 							navigate({
@@ -40,7 +34,9 @@ function ProjectQuotesScreen() {
 					>
 						← Back to RFQ
 					</button>
-					<button className="btn btn-green">✅ Accept Best Quote</button>
+					<button type="button" className="btn btn-green">
+						✅ Accept Best Quote
+					</button>
 				</div>
 			</div>
 		</>

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { CalcInputs, EstimateResult, SpecGrade } from "../types";
+import type { CalcInputs, EstimateResult, SpecGrade } from "@/types";
 
 const defaultInputs: CalcInputs = {
 	location: "",

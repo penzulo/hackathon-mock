@@ -76,3 +76,29 @@ export interface EstimateResult {
 	locationTier: 1 | 2 | 3;
 	generatedAt: string;
 }
+
+export interface TradeSlideOption {
+	icon: string;
+	name: string;
+	sub?: string;
+	desc?: string;
+	bg?: string;
+	notSure?: boolean;
+}
+
+export interface TradeSlideCheck {
+	q: string;
+	icon: string;
+	f: string;
+	opts: string[];
+}
+
+export interface TradeSlide {
+	id: "options" | "checks" | "grid" | "size" | "photos" | "timeline" | "done";
+	title: string;
+	sub: string;
+	field?: string;
+	required?: boolean;
+	opts?: TradeSlideOption[];
+	checks?: TradeSlideCheck[];
+}

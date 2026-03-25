@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { FlowSteps } from "../../components/layout/FlowSteps";
-import { T } from "../../lib/theme";
-import { PROJECT_STEPS, PROJECTS } from "../../lib/tradeDefs";
-import { useProjectStore } from "../../store/useProjectStore";
+import { FlowSteps } from "@/components/layout/FlowSteps";
+import { T } from "@/lib/theme";
+import { PROJECT_STEPS, PROJECTS } from "@/lib/tradeDefs";
+import { useProjectStore } from "@/store/useProjectStore";
 
 export const Route = createFileRoute("/project/")({
 	component: ProjectTypeScreen,

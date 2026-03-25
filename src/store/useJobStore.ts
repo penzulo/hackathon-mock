@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Project, Vendor } from "../types";
+import type { Project, Vendor } from "@/types";
 
 interface JobStore {
 	// Single job flow

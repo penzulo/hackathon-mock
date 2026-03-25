@@ -442,7 +442,7 @@ function TradeTemplate({ trade, onDone, onBack }) {
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 	const area =
-		ans.len && ans.wid ? parseInt(ans.len) * parseInt(ans.wid) : null;
+		ans.len && ans.wid ? parseInt(ans.len, 10) * parseInt(ans.wid, 10) : null;
 
 	// Each trade has its own slide content definitions
 	const slides = getTradeSlides(def.id);
@@ -655,7 +655,7 @@ function TradeTemplate({ trade, onDone, onBack }) {
 								<div key={u.main} className="upload-option">
 									<div
 										className="upload-icon-box"
-										style={{ background: def.color.bg, borderColor: ac + "40" }}
+										style={{ background: def.color.bg, borderColor: `${ac}40` }}
 									>
 										{u.icon}
 									</div>
@@ -2774,7 +2774,7 @@ function ProjectReviewScreen({ project, onNext, onBack }) {
 				</div>
 
 				{/* Trade RFQ tables */}
-				{(activeTab === -1 ? trades : [trades[activeTab]]).map((trade, ti) => (
+				{(activeTab === -1 ? trades : [trades[activeTab]]).map((trade, _ti) => (
 					<div
 						key={trade.id}
 						className="review-card anim"
@@ -3101,7 +3101,7 @@ function ProjectQuotesScreen({ project, onBack }) {
 					},
 				];
 
-	const tabs = ["summary", "breakdown"];
+	const _tabs = ["summary", "breakdown"];
 
 	return (
 		<>
@@ -3189,7 +3189,7 @@ function ProjectQuotesScreen({ project, onBack }) {
 									<div className="price-big">{v.total}</div>
 									<div className="price-note">complete project estimate</div>
 									{[
-										["⏱", "Project duration: " + v.eta],
+										["⏱", `Project duration: ${v.eta}`],
 										["🛡", "End-to-end warranty included"],
 										[
 											v.verified ? "✅" : "⚠️",
@@ -3197,7 +3197,7 @@ function ProjectQuotesScreen({ project, onBack }) {
 												? "All trades verified"
 												: "Some trades unverified",
 										],
-										["💼", v.reviews + " completed projects"],
+										["💼", `${v.reviews} completed projects`],
 									].map(([ic, tx], j) => (
 										<div key={j} className="qv-detail">
 											<span>{ic}</span>
@@ -3313,13 +3313,15 @@ function ProjectQuotesScreen({ project, onBack }) {
 														</div>
 													</div>
 												</td>
-												{vendors.map((v, vi) => {
+												{vendors.map((v, _vi) => {
 													const amt = v.trades[id];
 													const isLowest = vendors.every(
 														(ov) =>
 															!ov.trades[id] ||
-															parseInt(ov.trades[id].replace(/[^0-9]/g, "")) >=
-																parseInt(amt.replace(/[^0-9]/g, "")),
+															parseInt(
+																ov.trades[id].replace(/[^0-9]/g, ""),
+																10,
+															) >= parseInt(amt.replace(/[^0-9]/g, ""), 10),
 													);
 													return (
 														<td
@@ -3524,7 +3526,7 @@ function JobTemplateScreen({ onNext, onBack }) {
 	const progress = ((slide + 1) / SLIDES.length) * 100;
 	const s = SLIDES[slide];
 	const area =
-		ans.len && ans.wid ? parseInt(ans.len) * parseInt(ans.wid) : null;
+		ans.len && ans.wid ? parseInt(ans.len, 10) * parseInt(ans.wid, 10) : null;
 	const zones = [
 		{
 			icon: "🛋️",
@@ -4869,13 +4871,13 @@ function QuotesScreen({ onVendor, onBack }) {
 								<div className="price-big">{v.price}</div>
 								<div className="price-note">all-in estimate</div>
 								{[
-									["⏱", "Lead time: " + v.eta],
-									["🛡", "Warranty: " + v.warranty],
+									["⏱", `Lead time: ${v.eta}`],
+									["🛡", `Warranty: ${v.warranty}`],
 									[
 										v.verified ? "✅" : "⚠️",
 										v.verified ? "Identity Verified" : "Not verified",
 									],
-									["💼", v.jobs + " completed jobs"],
+									["💼", `${v.jobs} completed jobs`],
 								].map(([ic, tx], j) => (
 									<div key={j} className="qv-detail">
 										<span>{ic}</span>

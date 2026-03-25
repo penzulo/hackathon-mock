@@ -1,5 +1,5 @@
-import type { TradeDef, TradeDefsMap } from "../types";
-import { TRADE_COLORS } from "./theme";
+import { TRADE_COLORS } from "@/lib/theme";
+import type { TradeDefsMap } from "@/types";
 
 export const TRADE_DEFS: TradeDefsMap = {
 	tiling: {

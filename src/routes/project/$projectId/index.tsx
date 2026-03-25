@@ -1,17 +1,13 @@
-import {
-	createFileRoute,
-	useNavigate,
-	useParams,
-} from "@tanstack/react-router";
-import { FlowSteps } from "../../../components/layout/FlowSteps";
-import { T } from "../../../lib/theme";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { FlowSteps } from "@/components/layout/FlowSteps";
+import { T } from "@/lib/theme";
 import {
 	BUILDING_TRADE_DEFS,
 	PROJECT_STEPS,
 	PROJECTS,
 	TRADE_DEFS,
-} from "../../../lib/tradeDefs";
-import { useProjectStore } from "../../../store/useProjectStore";
+} from "@/lib/tradeDefs";
+import { useProjectStore } from "@/store/useProjectStore";
 
 export const Route = createFileRoute("/project/$projectId/")({
 	component: TradeHubScreen,

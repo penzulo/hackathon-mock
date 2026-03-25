@@ -9,14 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TradeIndexRouteImport } from './routes/trade/index'
 import { Route as ProjectIndexRouteImport } from './routes/project/index'
-import { Route as TradeTradeIdRouteImport } from './routes/trade/$tradeId'
+import { Route as TradeTradeIdIndexRouteImport } from './routes/trade/$tradeId/index'
 import { Route as ProjectProjectIdIndexRouteImport } from './routes/project/$projectId/index'
+import { Route as TradeTradeIdReviewRouteImport } from './routes/trade/$tradeId/review'
+import { Route as TradeTradeIdQuotesRouteImport } from './routes/trade/$tradeId/quotes'
 import { Route as ProjectProjectIdReviewRouteImport } from './routes/project/$projectId/review'
 import { Route as ProjectProjectIdQuotesRouteImport } from './routes/project/$projectId/quotes'
+import { Route as TradeTradeIdVendorVendorIdRouteImport } from './routes/trade/$tradeId/vendor/$vendorId'
 
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -32,14 +41,24 @@ const ProjectIndexRoute = ProjectIndexRouteImport.update({
   path: '/project/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TradeTradeIdRoute = TradeTradeIdRouteImport.update({
-  id: '/trade/$tradeId',
-  path: '/trade/$tradeId',
+const TradeTradeIdIndexRoute = TradeTradeIdIndexRouteImport.update({
+  id: '/trade/$tradeId/',
+  path: '/trade/$tradeId/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectProjectIdIndexRoute = ProjectProjectIdIndexRouteImport.update({
   id: '/project/$projectId/',
   path: '/project/$projectId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradeTradeIdReviewRoute = TradeTradeIdReviewRouteImport.update({
+  id: '/trade/$tradeId/review',
+  path: '/trade/$tradeId/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradeTradeIdQuotesRoute = TradeTradeIdQuotesRouteImport.update({
+  id: '/trade/$tradeId/quotes',
+  path: '/trade/$tradeId/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectProjectIdReviewRoute = ProjectProjectIdReviewRouteImport.update({
@@ -52,77 +71,118 @@ const ProjectProjectIdQuotesRoute = ProjectProjectIdQuotesRouteImport.update({
   path: '/project/$projectId/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TradeTradeIdVendorVendorIdRoute =
+  TradeTradeIdVendorVendorIdRouteImport.update({
+    id: '/trade/$tradeId/vendor/$vendorId',
+    path: '/trade/$tradeId/vendor/$vendorId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/calculator': typeof CalculatorRoute
   '/project/': typeof ProjectIndexRoute
   '/trade/': typeof TradeIndexRoute
   '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
   '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/trade/$tradeId/quotes': typeof TradeTradeIdQuotesRoute
+  '/trade/$tradeId/review': typeof TradeTradeIdReviewRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/trade/$tradeId/': typeof TradeTradeIdIndexRoute
+  '/trade/$tradeId/vendor/$vendorId': typeof TradeTradeIdVendorVendorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/calculator': typeof CalculatorRoute
   '/project': typeof ProjectIndexRoute
   '/trade': typeof TradeIndexRoute
   '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
   '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/trade/$tradeId/quotes': typeof TradeTradeIdQuotesRoute
+  '/trade/$tradeId/review': typeof TradeTradeIdReviewRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/trade/$tradeId': typeof TradeTradeIdIndexRoute
+  '/trade/$tradeId/vendor/$vendorId': typeof TradeTradeIdVendorVendorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/trade/$tradeId': typeof TradeTradeIdRoute
+  '/calculator': typeof CalculatorRoute
   '/project/': typeof ProjectIndexRoute
   '/trade/': typeof TradeIndexRoute
   '/project/$projectId/quotes': typeof ProjectProjectIdQuotesRoute
   '/project/$projectId/review': typeof ProjectProjectIdReviewRoute
+  '/trade/$tradeId/quotes': typeof TradeTradeIdQuotesRoute
+  '/trade/$tradeId/review': typeof TradeTradeIdReviewRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/trade/$tradeId/': typeof TradeTradeIdIndexRoute
+  '/trade/$tradeId/vendor/$vendorId': typeof TradeTradeIdVendorVendorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/trade/$tradeId'
+    | '/calculator'
     | '/project/'
     | '/trade/'
     | '/project/$projectId/quotes'
     | '/project/$projectId/review'
+    | '/trade/$tradeId/quotes'
+    | '/trade/$tradeId/review'
     | '/project/$projectId/'
+    | '/trade/$tradeId/'
+    | '/trade/$tradeId/vendor/$vendorId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/trade/$tradeId'
+    | '/calculator'
     | '/project'
     | '/trade'
     | '/project/$projectId/quotes'
     | '/project/$projectId/review'
+    | '/trade/$tradeId/quotes'
+    | '/trade/$tradeId/review'
     | '/project/$projectId'
+    | '/trade/$tradeId'
+    | '/trade/$tradeId/vendor/$vendorId'
   id:
     | '__root__'
     | '/'
-    | '/trade/$tradeId'
+    | '/calculator'
     | '/project/'
     | '/trade/'
     | '/project/$projectId/quotes'
     | '/project/$projectId/review'
+    | '/trade/$tradeId/quotes'
+    | '/trade/$tradeId/review'
     | '/project/$projectId/'
+    | '/trade/$tradeId/'
+    | '/trade/$tradeId/vendor/$vendorId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  TradeTradeIdRoute: typeof TradeTradeIdRoute
+  CalculatorRoute: typeof CalculatorRoute
   ProjectIndexRoute: typeof ProjectIndexRoute
   TradeIndexRoute: typeof TradeIndexRoute
   ProjectProjectIdQuotesRoute: typeof ProjectProjectIdQuotesRoute
   ProjectProjectIdReviewRoute: typeof ProjectProjectIdReviewRoute
+  TradeTradeIdQuotesRoute: typeof TradeTradeIdQuotesRoute
+  TradeTradeIdReviewRoute: typeof TradeTradeIdReviewRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
+  TradeTradeIdIndexRoute: typeof TradeTradeIdIndexRoute
+  TradeTradeIdVendorVendorIdRoute: typeof TradeTradeIdVendorVendorIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -144,11 +204,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/trade/$tradeId': {
-      id: '/trade/$tradeId'
+    '/trade/$tradeId/': {
+      id: '/trade/$tradeId/'
       path: '/trade/$tradeId'
-      fullPath: '/trade/$tradeId'
-      preLoaderRoute: typeof TradeTradeIdRouteImport
+      fullPath: '/trade/$tradeId/'
+      preLoaderRoute: typeof TradeTradeIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/project/$projectId/': {
@@ -156,6 +216,20 @@ declare module '@tanstack/react-router' {
       path: '/project/$projectId'
       fullPath: '/project/$projectId/'
       preLoaderRoute: typeof ProjectProjectIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trade/$tradeId/review': {
+      id: '/trade/$tradeId/review'
+      path: '/trade/$tradeId/review'
+      fullPath: '/trade/$tradeId/review'
+      preLoaderRoute: typeof TradeTradeIdReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trade/$tradeId/quotes': {
+      id: '/trade/$tradeId/quotes'
+      path: '/trade/$tradeId/quotes'
+      fullPath: '/trade/$tradeId/quotes'
+      preLoaderRoute: typeof TradeTradeIdQuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/project/$projectId/review': {
@@ -172,17 +246,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdQuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/trade/$tradeId/vendor/$vendorId': {
+      id: '/trade/$tradeId/vendor/$vendorId'
+      path: '/trade/$tradeId/vendor/$vendorId'
+      fullPath: '/trade/$tradeId/vendor/$vendorId'
+      preLoaderRoute: typeof TradeTradeIdVendorVendorIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  TradeTradeIdRoute: TradeTradeIdRoute,
+  CalculatorRoute: CalculatorRoute,
   ProjectIndexRoute: ProjectIndexRoute,
   TradeIndexRoute: TradeIndexRoute,
   ProjectProjectIdQuotesRoute: ProjectProjectIdQuotesRoute,
   ProjectProjectIdReviewRoute: ProjectProjectIdReviewRoute,
+  TradeTradeIdQuotesRoute: TradeTradeIdQuotesRoute,
+  TradeTradeIdReviewRoute: TradeTradeIdReviewRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
+  TradeTradeIdIndexRoute: TradeTradeIdIndexRoute,
+  TradeTradeIdVendorVendorIdRoute: TradeTradeIdVendorVendorIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

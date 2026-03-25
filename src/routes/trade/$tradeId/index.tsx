@@ -1,27 +1,25 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { T } from "../../lib/theme";
-import { BUILDING_TRADE_DEFS, TRADE_DEFS } from "../../lib/tradeDefs";
-import { useProjectStore } from "../../store/useProjectStore";
+import { T } from "@/lib/theme";
+import { BUILDING_TRADE_DEFS, TRADE_DEFS } from "@/lib/tradeDefs";
+import { useProjectStore } from "@/store/useProjectStore";
+import type { TradeSlide } from "@/types";
 
-// 1. Define the expected query parameters
 type TradeSearchDeps = {
 	projectId?: string;
 };
 
-export const Route = createFileRoute("/trade/$tradeId")({
+export const Route = createFileRoute("/trade/$tradeId/")({
 	validateSearch: (search: Record<string, unknown>): TradeSearchDeps => {
 		return {
 			projectId: search.projectId as string | undefined,
-		};
+		}
 	},
 	component: TradeTemplateScreen,
 });
 
-// 2. Paste your getTradeSlides function here (or import it from lib/tradeDefs)
-
-function getTradeSlides(tradeId) {
-	const base = {
+function getTradeSlides(tradeId: string): TradeSlide[] {
+	const base: Record<string, TradeSlide[]> = {
 		tiling: [
 			{
 				id: "options",
@@ -920,7 +918,7 @@ function getTradeSlides(tradeId) {
 			},
 			{ id: "done", title: "Interior template complete!", sub: "" },
 		],
-	};
+	}
 	return base[tradeId] || base.tiling;
 }
 
@@ -942,7 +940,7 @@ function TradeTemplateScreen() {
 	const [ans, setAns] = useState<Record<string, any>>({
 		len: "",
 		wid: "",
-	});
+	})
 
 	if (!def || !slides) return <div>Trade not found</div>;
 
@@ -950,14 +948,15 @@ function TradeTemplateScreen() {
 	const s = slides[slide];
 	const progress = ((slide + 1) / total) * 100;
 	const ac = def.color.accent;
-	const area = ans.len && ans.wid ? parseInt(ans.len) * parseInt(ans.wid) : 0;
+	const area =
+		ans.len && ans.wid ? parseInt(ans.len, 10) * parseInt(ans.wid, 10) : 0;
 
 	const sel = (f: string, v: any) => setAns((a) => ({ ...a, [f]: v }));
 	const go = (d: number) => {
 		setSlide((s) => s + d);
 		setAnimKey((k) => k + 1);
 		window.scrollTo({ top: 0, behavior: "smooth" });
-	};
+	}
 
 	const canNext = () => {
 		if (s.required && s.field) return !!ans[s.field];
@@ -966,7 +965,7 @@ function TradeTemplateScreen() {
 			return s.checks.every((c: any) => !!ans[c.f]);
 		}
 		return true;
-	};
+	}
 
 	const handleDone = () => {
 		if (projectId) {
@@ -977,7 +976,7 @@ function TradeTemplateScreen() {
 			// SINGLE JOB FLOW: Proceed to review screen
 			navigate({ to: "/trade/$tradeId/review", params: { tradeId } });
 		}
-	};
+	}
 
 	const handleBack = () => {
 		if (slide === 0) {
@@ -987,9 +986,9 @@ function TradeTemplateScreen() {
 				navigate({ to: "/trade" });
 			}
 		} else {
-			go(-1);
+			go(-1)
 		}
-	};
+	}
 
 	return (
 		<div className="slide-wrap">
@@ -1047,8 +1046,9 @@ function TradeTemplateScreen() {
 					{/* GENERIC OPTIONS LIST */}
 					{s.id === "options" && s.opts && (
 						<div className="option-list">
-							{s.opts.map((o: any) => (
+							{s.opts.map((o) => (
 								<button
+									type="button"
 									key={o.name}
 									className={`option-row${o.notSure ? " not-sure" : ""}${ans[s.field] === o.name ? " selected" : ""}`}
 									onClick={() => sel(s.field, o.name)}
@@ -1087,6 +1087,7 @@ function TradeTemplateScreen() {
 						<div className="option-grid">
 							{s.opts.map((o: any) => (
 								<button
+									type="button"
 									key={o.name}
 									className={`option-card${ans[s.field] === o.name ? " selected" : ""}`}
 									onClick={() => sel(s.field, o.name)}
@@ -1128,6 +1129,7 @@ function TradeTemplateScreen() {
 									<div className="check-options">
 										{c.opts.map((o: string) => (
 											<button
+												type="button"
 												key={o}
 												className={`check-pill${ans[c.f] === o ? " selected" : ""}`}
 												style={
@@ -1184,10 +1186,11 @@ function TradeTemplateScreen() {
 								)}
 							</div>
 							<button
+								type="button"
 								className="option-row not-sure"
 								onClick={() => {
-									sel("len", "0");
-									sel("wid", "0");
+									sel("len", "0")
+									sel("wid", "0")
 								}}
 							>
 								<div
@@ -1218,7 +1221,7 @@ function TradeTemplateScreen() {
 								<div key={u.main} className="upload-option">
 									<div
 										className="upload-icon-box"
-										style={{ background: def.color.bg, borderColor: ac + "40" }}
+										style={{ background: def.color.bg, borderColor: `${ac}40` }}
 									>
 										{u.icon}
 									</div>
@@ -1228,66 +1231,65 @@ function TradeTemplateScreen() {
 									</div>
 								</div>
 							))}
-							<div className="skip-link" onClick={() => go(1)}>
+							<button className="skip-link" type="button" onClick={() => go(1)}>
 								Skip for now
-							</div>
+							</button>
 						</>
 					)}
 
 					{/* TIMELINE */}
 					{s.id === "timeline" && (
-						<>
-							<div className="option-list">
-								{[
-									{
-										icon: "⚡",
-										name: "Urgent (within 2 weeks)",
-										sub: "Priority — may cost more",
-									},
-									{
-										icon: "📋",
-										name: "Soon (1–2 months)",
-										sub: "Standard scheduling",
-									},
-									{
-										icon: "✅",
-										name: "Flexible (2–3 months)",
-										sub: "Best rates possible",
-									},
-								].map((t) => (
-									<button
-										key={t.name}
-										className={`option-row${ans.timeline === t.name ? " selected" : ""}`}
-										onClick={() => sel("timeline", t.name)}
+						<div className="option-list">
+							{[
+								{
+									icon: "⚡",
+									name: "Urgent (within 2 weeks)",
+									sub: "Priority — may cost more",
+								},
+								{
+									icon: "📋",
+									name: "Soon (1–2 months)",
+									sub: "Standard scheduling",
+								},
+								{
+									icon: "✅",
+									name: "Flexible (2–3 months)",
+									sub: "Best rates possible",
+								},
+							].map((t) => (
+								<button
+									type="button"
+									key={t.name}
+									className={`option-row${ans.timeline === t.name ? " selected" : ""}`}
+									onClick={() => sel("timeline", t.name)}
+									style={
+										ans.timeline === t.name
+											? { borderColor: ac, background: def.color.bg }
+											: {}
+									}
+								>
+									<div
+										className="option-icon"
 										style={
 											ans.timeline === t.name
-												? { borderColor: ac, background: def.color.bg }
+												? { background: "white", borderColor: ac }
 												: {}
 										}
 									>
+										{t.icon}
+									</div>
+									<div>
 										<div
-											className="option-icon"
-											style={
-												ans.timeline === t.name
-													? { background: "white", borderColor: ac }
-													: {}
-											}
+											className="option-text-main"
+											style={ans.timeline === t.name ? { color: ac } : {}}
 										>
-											{t.icon}
+											{t.name}
 										</div>
-										<div>
-											<div
-												className="option-text-main"
-												style={ans.timeline === t.name ? { color: ac } : {}}
-											>
-												{t.name}
-											</div>
-											<div className="option-text-sub">{t.sub}</div>
-										</div>
-									</button>
-								))}
-							</div>
-						</>
+										<div className="option-text-sub">{t.sub}</div>
+									</div>
+								</button>
+							))}
+						</div>
 					)}
 
 					{/* DONE */}
@@ -1314,12 +1316,13 @@ function TradeTemplateScreen() {
 					{def.icon} {def.label} · Step {slide + 1}/{total}
 				</div>
 				<div className="slide-nav-right">
-					<button className="btn btn-ghost" onClick={handleBack}>
+					<button type="button" className="btn btn-ghost" onClick={handleBack}>
 						← {slide === 0 ? (projectId ? "Project Hub" : "Search") : "Back"}
 					</button>
 
 					{slide < total - 1 ? (
 						<button
+							type="button"
 							className="btn btn-primary"
 							style={{ background: ac }}
 							disabled={!canNext()}
@@ -1328,12 +1331,16 @@ function TradeTemplateScreen() {
 							Next →
 						</button>
 					) : (
-						<button className="btn btn-green" onClick={handleDone}>
+						<button
+							type="button"
+							className="btn btn-green"
+							onClick={handleDone}
+						>
 							{projectId ? "✓ Save & Return to Hub" : "Review Job Order →"}
 						</button>
 					)}
 				</div>
 			</div>
 		</div>
-	);
+	)
 }

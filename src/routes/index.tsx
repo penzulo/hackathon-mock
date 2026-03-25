@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { T } from "../lib/theme";
+import { T } from "@/lib/theme";
 
 export const Route = createFileRoute("/")({
 	component: SearchScreen,
@@ -54,6 +54,7 @@ function SearchScreen() {
 						placeholder="e.g. Balcony tiling, bathroom renovation, painting..."
 					/>
 					<button
+						type="button"
 						className="search-go"
 						onClick={() => navigate({ to: "/trade" })}
 					>
@@ -64,6 +65,7 @@ function SearchScreen() {
 				<div className="quick-chips">
 					{QUICK_CHIPS.map((chip) => (
 						<button
+							type="button"
 							key={chip}
 							className="chip"
 							onClick={() => navigate({ to: "/trade" })}
@@ -105,6 +107,7 @@ function SearchScreen() {
 						</div>
 					</div>
 					<button
+						type="button"
 						className="btn btn-primary"
 						style={{ flexShrink: 0, marginLeft: 16 }}
 						onClick={() => navigate({ to: "/calculator" })}

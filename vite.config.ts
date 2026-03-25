@@ -1,6 +1,6 @@
-import babel from "@rolldown/plugin-babel";
+import path from "node:path";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
@@ -11,7 +11,13 @@ export default defineConfig({
 			target: "react",
 			autoCodeSplitting: true,
 		}),
-		react(),
-		babel({ presets: [reactCompilerPreset()] }),
+		viteReact(),
 	],
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+			"@/components": path.resolve(__dirname, "./src/components"),
+			"@/lib": path.resolve(__dirname, "./src/lib"),
+		},
+	},
 });

@@ -1,5 +1,4 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { T } from "../../lib/theme";
 
 const NAV_LINKS = [
 	{ to: "/", label: "Find Vendors" },
@@ -21,6 +20,7 @@ export function Topbar() {
 				{NAV_LINKS.map(({ to, label }) => (
 					<Link key={to} to={to} style={{ textDecoration: "none" }}>
 						<button
+							type="button"
 							className={`nav-btn${pathname === to || (to !== "/" && pathname.startsWith(to)) ? " active" : ""}`}
 						>
 							{label}

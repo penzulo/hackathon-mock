@@ -1,4 +1,4 @@
-import { T } from "../../lib/theme";
+import { T } from "@/lib/theme";
 
 interface FlowStepsProps {
 	steps: string[];

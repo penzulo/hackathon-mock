@@ -1,13 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { FlowSteps } from "../../../components/layout/FlowSteps";
-import { T } from "../../../lib/theme";
-import {
-	BUILDING_TRADE_DEFS,
-	PROJECT_STEPS,
-	PROJECTS,
-	TRADE_DEFS,
-} from "../../../lib/tradeDefs";
+import { FlowSteps } from "@/components/layout/FlowSteps";
+import { PROJECT_STEPS, PROJECTS } from "@/lib/tradeDefs";
 
 export const Route = createFileRoute("/project/$projectId/review")({
 	component: ProjectReviewScreen,
@@ -30,6 +23,7 @@ function ProjectReviewScreen() {
 				<span className="ab-left">{project.rfqId} · Unified Project RFQ</span>
 				<div className="ab-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() =>
 							navigate({
@@ -41,6 +35,7 @@ function ProjectReviewScreen() {
 						← Edit Templates
 					</button>
 					<button
+						type="button"
 						className="btn btn-green"
 						onClick={() =>
 							navigate({
