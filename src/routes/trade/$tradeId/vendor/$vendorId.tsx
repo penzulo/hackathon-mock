@@ -4,287 +4,1159 @@ import { T } from "@/lib/theme";
 import { BUILDING_TRADE_DEFS, TRADE_DEFS } from "@/lib/tradeDefs";
 
 export const Route = createFileRoute("/trade/$tradeId/vendor/$vendorId")({
-	component: VendorProfileScreen,
+  component: VendorProfileScreen,
 });
 
-// ─── MOCK FULL PROFILE DATA ──────────────────────────────────────────────────
-const getMockProfile = (id: string) => ({
-	id,
-	name:
-		id === "1"
-			? "TileKing Pro"
-			: id === "2"
-				? "Urban Works & Co."
-				: "MasterFloor Works",
-	emoji: id === "1" ? "👑" : id === "2" ? "🏙️" : "🔨",
-	loc: "Pune, Maharashtra",
-	rating: id === "1" ? 4.8 : 4.5,
-	reviews: id === "1" ? 312 : 187,
-	jobs: id === "1" ? 480 : 290,
-	verified: true,
-	memberSince: "2021",
-	quotePrice: id === "1" ? "₹38,500" : "₹34,200",
-	skills: [
-		"Ceramic",
-		"Porcelain",
-		"Waterproofing",
-		"Epoxy Grouting",
-		"Marble Overlay",
-	],
-	recentReviews: [
-		{
-			name: "Rahul D.",
-			date: "2 weeks ago",
-			text: "Excellent finish on our bathroom tiles. Very clean work and stuck to the timeline.",
-			rating: 5,
-		},
-		{
-			name: "Sneha P.",
-			date: "1 month ago",
-			text: "Good work, but arrived a bit late on the first day. Overall satisfied.",
-			rating: 4,
-		},
-	],
-	pastJobs: [
-		{
-			title: "Master Bathroom Renovation",
-			type: "Tiling & Waterproofing",
-			price: "₹45,000",
-		},
-		{
-			title: "Balcony Anti-Skid Tiling",
-			type: "Outdoor Tiling",
-			price: "₹18,500",
-		},
-	],
-});
+// ─── DESIGN TOKENS ─────────────────────────────────────────────────────
+const D = {
+  heroFrom: "#0D1B2A",
+  heroTo: "#1A2F45",
+  accent: "#10B981",
+  accentDark: "#059669",
+  accentGlow: "rgba(16,185,129,0.25)",
+  gold: "#F59E0B",
+  ink: "#0D1B2A",
+  inkMid: "#4B5563",
+  inkLight: "#9CA3AF",
+  surface: "#FFFFFF",
+  surfaceAlt: "#F8FAFB",
+  border: "#E5E9EF",
+  borderStrong: "#CBD5E1",
+  blue: "#2563EB",
+  blueSoft: "#EFF6FF",
+  radius: "16px",
+  radiusSm: "10px",
+  shadow: "0 1px 3px rgba(13,27,42,0.06), 0 4px 16px rgba(13,27,42,0.08)",
+  shadowMd: "0 4px 24px rgba(13,27,42,0.12)",
+};
 
+// ─── FONT IMPORT ────────────────────────────────────────────────────────
+const FONT_STYLE = `
+	@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap');
+	* { box-sizing: border-box; }
+	body { font-family: 'DM Sans', sans-serif; }
+	@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+	@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+	@keyframes scaleIn { from { transform:scale(0.94); opacity:0; } to { transform:scale(1); opacity:1; } }
+	@keyframes tickPop { 0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(4deg);opacity:1} 100%{transform:scale(1) rotate(0);opacity:1} }
+	@keyframes ringExpand { 0%{transform:scale(0.5);opacity:1} 100%{transform:scale(2.2);opacity:0} }
+	@keyframes textFadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+	@keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+`;
+
+// ─── STAR RATING ────────────────────────────────────────────────────────
+function Stars({ r, size = 13 }: { r: number; size?: number }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
+      {[1, 2, 3, 4, 5].map((s) => (
+        <span
+          key={s}
+          style={{
+            fontSize: size,
+            color: s <= Math.round(r) ? D.gold : D.border,
+            lineHeight: 1,
+          }}
+        >
+          ★
+        </span>
+      ))}
+      <span
+        style={{
+          fontSize: size - 1,
+          fontWeight: 600,
+          color: D.inkMid,
+          marginLeft: 4,
+        }}
+      >
+        {r}
+      </span>
+    </span>
+  );
+}
+
+// ─── BADGE ──────────────────────────────────────────────────────────────
+function Badge({
+  children,
+  color = D.accent,
+  bg = "rgba(16,185,129,0.1)",
+}: {
+  children: React.ReactNode;
+  color?: string;
+  bg?: string;
+}) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 5,
+        padding: "3px 10px",
+        borderRadius: 99,
+        background: bg,
+        color,
+        fontSize: 11,
+        fontWeight: 600,
+        letterSpacing: "0.03em",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+// ─── MOCK DATA ───────────────────────────────────────────────────────────
+const getMockVendor = (id: string, tradeId: string) => {
+  const isTileKing = id === "1";
+  return {
+    id,
+    name: isTileKing ? "TileKing Pro" : "Urban Works & Co.",
+    emoji: isTileKing ? "👑" : "🏙️",
+    loc: "Kothrud, Pune",
+    rating: isTileKing ? 4.8 : 4.5,
+    reviews: isTileKing ? 312 : 187,
+    jobs: isTileKing ? 480 : 290,
+    verified: true,
+    price: isTileKing ? "₹38,500" : "₹34,200",
+    tradeId,
+  };
+};
+
+const REVIEWS = [
+  {
+    name: "Ananya S.",
+    color: "#2563EB",
+    rating: 5,
+    date: "Feb 2026",
+    text: "Absolutely immaculate work. The tiles are perfectly aligned and the grouting is flawless. TileKing Pro finished ahead of schedule and cleaned up completely.",
+  },
+  {
+    name: "Rahul M.",
+    color: "#059669",
+    rating: 5,
+    date: "Jan 2026",
+    text: "Very professional team. They noticed a drainage slope issue the previous contractor had missed and fixed it as part of the job.",
+  },
+  {
+    name: "Priya K.",
+    color: "#7C3AED",
+    rating: 4,
+    date: "Dec 2025",
+    text: "Great quality tiles and neat finish. Minor delay on day 2 due to material delivery but they made up for it on day 3.",
+  },
+];
+
+const PAST_JOBS = [
+  {
+    icon: "🚿",
+    name: "Master Bathroom Tiling — Koregaon Park",
+    meta: "Porcelain 24×24 · 220 sqft · Mar 2026",
+    price: "₹44,000",
+  },
+  {
+    icon: "🍳",
+    name: "Kitchen Floor & Backsplash — Baner",
+    meta: "Ceramic Mosaic · 310 sqft · Feb 2026",
+    price: "₹61,500",
+  },
+  {
+    icon: "🏊",
+    name: "Outdoor Pool Deck — Viman Nagar",
+    meta: "Non-slip Travertine · 480 sqft · Jan 2026",
+    price: "₹1,12,000",
+  },
+  {
+    icon: "🏢",
+    name: "Commercial Lobby — Hinjewadi",
+    meta: "Marble 600×600 · 1200 sqft · Dec 2025",
+    price: "₹2,80,000",
+  },
+];
+
+// ─── CARD COMPONENT ──────────────────────────────────────────────────────
+function Card({
+  children,
+  style = {},
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      style={{
+        background: D.surface,
+        borderRadius: D.radius,
+        border: `1px solid ${D.border}`,
+        boxShadow: D.shadow,
+        overflow: "hidden",
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function CardHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        padding: "16px 22px",
+        borderBottom: `1px solid ${D.border}`,
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: 13,
+        fontWeight: 600,
+        color: D.inkMid,
+        letterSpacing: "0.05em",
+        textTransform: "uppercase",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        background: D.surfaceAlt,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────
 function VendorProfileScreen() {
-	const { tradeId, vendorId } = Route.useParams();
-	const navigate = useNavigate();
-	const [isConfirmed, setIsConfirmed] = useState(false);
+  const { tradeId, vendorId } = Route.useParams();
+  const navigate = useNavigate();
 
-	const allDefs = { ...TRADE_DEFS, ...BUILDING_TRADE_DEFS };
-	const tradeDef = allDefs[tradeId as keyof typeof allDefs];
-	const profile = getMockProfile(vendorId);
+  const [accepting, setAccepting] = useState(false);
+  const [showTick, setShowTick] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
 
-	if (!tradeDef) return <div>Trade not found</div>;
+  const allDefs = { ...TRADE_DEFS, ...BUILDING_TRADE_DEFS };
+  const tradeDef = allDefs[tradeId as keyof typeof allDefs];
+  const vendor = getMockVendor(vendorId, tradeId);
 
-	// ─── SUCCESS VIEW ────────────────────────────────────────────────────────
-	if (isConfirmed) {
-		return (
-			<div
-				className="page"
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					justifyContent: "center",
-					minHeight: "80vh",
-					textAlign: "center",
-				}}
-			>
-				<div className="anim" style={{ animationDelay: "0s" }}>
-					<div style={{ fontSize: 72, marginBottom: 24 }}>🎉</div>
-					<h2
-						style={{
-							fontFamily: "'Sora',sans-serif",
-							fontSize: 32,
-							fontWeight: 800,
-							color: T.ink,
-							marginBottom: 12,
-						}}
-					>
-						Job Awarded to {profile.name}!
-					</h2>
-					<p
-						style={{
-							fontSize: 15,
-							color: T.inkMid,
-							lineHeight: 1.6,
-							maxWidth: 400,
-							margin: "0 auto 32px",
-						}}
-					>
-						Your RFQ <b>{tradeDef.rfqId}-001</b> has been successfully assigned.
-						The vendor will contact you shortly to finalize the site visit and
-						schedule.
-					</p>
-					<div
-						style={{
-							padding: "20px 24px",
-							background: T.white,
-							border: `2px solid ${T.border}`,
-							borderRadius: 16,
-							maxWidth: 400,
-							margin: "0 auto",
-							textAlign: "left",
-						}}
-					>
-						<div
-							style={{
-								fontSize: 12,
-								fontWeight: 700,
-								color: T.inkLight,
-								textTransform: "uppercase",
-								letterSpacing: "0.5px",
-								marginBottom: 12,
-							}}
-						>
-							Next Steps
-						</div>
-						<div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
-							<div style={{ fontSize: 20 }}>📞</div>
-							<div style={{ fontSize: 13, color: T.ink, lineHeight: 1.5 }}>
-								<b>Vendor Contact:</b> Expect a call from {profile.name} within
-								24 hours.
-							</div>
-						</div>
-						<div style={{ display: "flex", gap: 12 }}>
-							<div style={{ fontSize: 20 }}>💳</div>
-							<div style={{ fontSize: 13, color: T.ink, lineHeight: 1.5 }}>
-								<b>Payment:</b> A 10% mobilization advance is standard before
-								work begins.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-					className="action-bar"
-					style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-				>
-					<span className="ab-left">Order Confirmed</span>
-					<div className="ab-right">
-						<button
-							className="btn btn-primary"
-							onClick={() => navigate({ to: "/" })}
-						>
-							Return to Dashboard →
-						</button>
-					</div>
-				</div>
-			</div>
-		);
-	}
+  if (!tradeDef) return <div>Trade not found</div>;
 
-	// ─── PROFILE VIEW ──────────────────────────────────────────────────────────
-	return (
-		<>
-			<div className="page">
-				{/* Profile Hero */}
-				<div className="profile-hero anim">
-					<div className="profile-av">{profile.emoji}</div>
-					<div style={{ flex: 1 }}>
-						<div
-							style={{
-								display: "flex",
-								justifyContent: "space-between",
-								alignItems: "flex-start",
-							}}
-						>
-							<div>
-								<div className="profile-name">{profile.name}</div>
-								<div className="profile-sub">
-									📍 {profile.loc} · Member since {profile.memberSince}
-								</div>
-							</div>
-							{profile.verified && (
-								<div className="verified-pill">✓ VERIFIED</div>
-							)}
-						</div>
-						<div className="profile-stats">
-							<div>
-								<div className="pstat-val">★ {profile.rating}</div>
-								<div className="pstat-key">{profile.reviews} Reviews</div>
-							</div>
-							<div>
-								<div className="pstat-val">{profile.jobs}</div>
-								<div className="pstat-key">Jobs Completed</div>
-							</div>
-						</div>
-					</div>
-				</div>
+  const handleAccept = () => {
+    setAccepting(true);
+    setTimeout(() => setShowTick(true), 200);
+    setTimeout(() => {
+      setShowTick(false);
+      setAccepting(false);
+      setConfirmed(true);
+    }, 2200);
+  };
 
-				<div className="profile-grid">
-					{/* Credentials & Skills */}
-					<div className="pcard anim" style={{ animationDelay: "0.06s" }}>
-						<div className="pcard-hdr">Credentials & Skills</div>
-						<div className="pcard-body">
-							<div className="cred-row">✅ GST Registered Business</div>
-							<div className="cred-row">✅ Background Checked (Mar 2026)</div>
-							<div className="divider" />
-							<div className="sec-label">Verified Skills</div>
-							<div style={{ margin: "-3px" }}>
-								{profile.skills.map((s) => (
-									<span key={s} className="skill-tag">
-										{s}
-									</span>
-								))}
-							</div>
-						</div>
-					</div>
+  // ─── CONFIRMATION SCREEN ──────────────────────────────────────────────
+  if (confirmed) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: D.surfaceAlt,
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          padding: "48px 16px 120px",
+        }}
+      >
+        <style>{FONT_STYLE}</style>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 600,
+            animation: "scaleIn 0.4s cubic-bezier(0.34,1.2,0.64,1) both",
+          }}
+        >
+          {/* Success Header */}
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <div
+              style={{
+                width: 72,
+                height: 72,
+                borderRadius: "50%",
+                background: `linear-gradient(135deg, ${D.accent}, ${D.accentDark})`,
+                boxShadow: `0 8px 32px ${D.accentGlow}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 32,
+                margin: "0 auto 20px",
+              }}
+            >
+              ✓
+            </div>
+            <h2
+              style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: 30,
+                fontWeight: 900,
+                color: D.ink,
+                margin: "0 0 8px",
+                lineHeight: 1.2,
+              }}
+            >
+              Job Awarded!
+            </h2>
+            <p
+              style={{
+                fontSize: 15,
+                color: D.inkMid,
+                margin: 0,
+                lineHeight: 1.6,
+              }}
+            >
+              Your {tradeDef.label.toLowerCase()} job has been confirmed.
+              <br />
+              The vendor will contact you within 24 hours.
+            </p>
+          </div>
 
-					{/* Past Jobs on Servzo */}
-					<div className="pcard anim" style={{ animationDelay: "0.08s" }}>
-						<div className="pcard-hdr">Recent Servzo Jobs</div>
-						<div className="pcard-body" style={{ padding: "10px 20px" }}>
-							{profile.pastJobs.map((job, i) => (
-								<div key={i} className="job-row">
-									<div className="job-ic">✓</div>
-									<div>
-										<div className="job-nm">{job.title}</div>
-										<div className="job-mt">{job.type}</div>
-									</div>
-									<div className="job-pr">{job.price}</div>
-								</div>
-							))}
-						</div>
-					</div>
+          {/* Job Card */}
+          <Card style={{ marginBottom: 16 }}>
+            <div
+              style={{
+                background: `linear-gradient(135deg, ${D.heroFrom} 0%, ${D.heroTo} 100%)`,
+                padding: "22px 24px",
+                display: "flex",
+                gap: 16,
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  width: 54,
+                  height: 54,
+                  borderRadius: 14,
+                  background: "rgba(255,255,255,0.12)",
+                  border: "1.5px solid rgba(255,255,255,0.18)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 26,
+                }}
+              >
+                {vendor.emoji}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "white",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  {vendor.name}
+                </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "rgba(255,255,255,0.6)",
+                    marginTop: 3,
+                  }}
+                >
+                  {vendor.loc}
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 24,
+                    fontWeight: 900,
+                    color: "white",
+                  }}
+                >
+                  {vendor.price}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.5)",
+                    marginTop: 2,
+                  }}
+                >
+                  Confirmed total
+                </div>
+              </div>
+            </div>
+            <div>
+              {[
+                ["RFQ ID", `${tradeDef.rfqId}-001`],
+                ["Job", `${tradeDef.label} Job`],
+                ["Start Date", "Within 2 weeks"],
+                ["Duration", "2–3 working days"],
+                ["Warranty", "2-year workmanship"],
+                ["Payment Terms", "50% advance · 50% on completion"],
+              ].map(([l, v], i) => (
+                <div
+                  key={l}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "12px 24px",
+                    borderBottom: i < 5 ? `1px solid ${D.border}` : "none",
+                    background: i % 2 === 0 ? D.surface : D.surfaceAlt,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 500,
+                      color: D.inkLight,
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {l}
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: D.ink }}>
+                    {v}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Card>
 
-					{/* Reviews */}
-					<div className="pcard full anim" style={{ animationDelay: "0.12s" }}>
-						<div className="pcard-hdr">Client Reviews</div>
-						<div className="pcard-body" style={{ padding: "10px 20px" }}>
-							{profile.recentReviews.map((rev, i) => (
-								<div key={i} className="rev-row">
-									<div className="rev-header">
-										<div className="rev-av" style={{ background: T.blue }}>
-											{rev.name[0]}
-										</div>
-										<div className="rev-name">{rev.name}</div>
-										<div style={{ color: T.star, fontSize: 12, marginLeft: 8 }}>
-											{"★".repeat(rev.rating)}
-											{"☆".repeat(5 - rev.rating)}
-										</div>
-										<div className="rev-date">{rev.date}</div>
-									</div>
-									<div className="rev-text">{rev.text}</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
+          {/* Actions */}
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              onClick={() => navigate({ to: "/" })}
+              style={{
+                flex: 1,
+                padding: "13px 20px",
+                borderRadius: D.radiusSm,
+                border: `1.5px solid ${D.borderStrong}`,
+                background: D.surface,
+                fontSize: 14,
+                fontWeight: 600,
+                color: D.inkMid,
+                cursor: "pointer",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            >
+              📄 Download Job Order
+            </button>
+            <button
+              onClick={() => navigate({ to: "/" })}
+              style={{
+                flex: 1,
+                padding: "13px 20px",
+                borderRadius: D.radiusSm,
+                border: "none",
+                background: `linear-gradient(135deg, ${D.accent}, ${D.accentDark})`,
+                fontSize: 14,
+                fontWeight: 600,
+                color: "white",
+                cursor: "pointer",
+                fontFamily: "'DM Sans', sans-serif",
+                boxShadow: `0 4px 16px ${D.accentGlow}`,
+              }}
+            >
+              Go to My Jobs →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-			<div className="action-bar">
-				<span className="ab-left">Viewing Vendor Profile</span>
-				<div className="ab-right">
-					<button
-						className="btn btn-ghost"
-						onClick={() =>
-							navigate({ to: "/trade/$tradeId/quotes", params: { tradeId } })
-						}
-					>
-						← Back to Quotes
-					</button>
-					<button
-						className="btn btn-green"
-						onClick={() => setIsConfirmed(true)}
-					>
-						✅ Accept Quote ({profile.quotePrice})
-					</button>
-				</div>
-			</div>
-		</>
-	);
+  // ─── PROFILE VIEW ─────────────────────────────────────────────────────
+  return (
+    <>
+      <style>{FONT_STYLE}</style>
+
+      {/* Accepting Overlay */}
+      {accepting && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 999,
+            background: "rgba(255,255,255,0.97)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            animation: "fadeIn 0.2s ease",
+          }}
+        >
+          {showTick && (
+            <>
+              <div
+                style={{
+                  position: "absolute",
+                  width: 140,
+                  height: 140,
+                  borderRadius: "50%",
+                  border: `4px solid ${D.accent}`,
+                  opacity: 0,
+                  animation: "ringExpand 0.8s 0.1s ease-out forwards",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  width: 140,
+                  height: 140,
+                  borderRadius: "50%",
+                  border: `2px solid ${D.accent}`,
+                  opacity: 0,
+                  animation: "ringExpand 0.9s 0.25s ease-out forwards",
+                }}
+              />
+              <div
+                style={{
+                  width: 112,
+                  height: 112,
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${D.accent}, ${D.accentDark})`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  animation: "tickPop 0.5s cubic-bezier(.34,1.56,.64,1) both",
+                  boxShadow: `0 16px 48px ${D.accentGlow}`,
+                }}
+              >
+                <svg width="52" height="52" viewBox="0 0 56 56" fill="none">
+                  <path
+                    d="M12 28 L24 40 L44 18"
+                    stroke="white"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div
+                style={{
+                  marginTop: 28,
+                  textAlign: "center",
+                  animation: "textFadeUp 0.4s 0.3s ease both",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 22,
+                    fontWeight: 800,
+                    color: D.ink,
+                    marginBottom: 6,
+                  }}
+                >
+                  {vendor.name} Accepted!
+                </div>
+                <div style={{ fontSize: 14, color: D.inkMid }}>
+                  Setting up your job order…
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      <div
+        style={{
+          background: D.surfaceAlt,
+          minHeight: "100vh",
+          paddingBottom: 100,
+        }}
+      >
+        {/* ── HERO ──────────────────────────────────────────────────────── */}
+        <div
+          style={{
+            background: `linear-gradient(160deg, ${D.heroFrom} 0%, ${D.heroTo} 100%)`,
+            padding: "40px 24px 0",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Subtle grid texture */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0.04,
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
+          />
+
+          <div
+            style={{ maxWidth: 900, margin: "0 auto", position: "relative" }}
+          >
+            {/* Breadcrumb */}
+            <div
+              style={{
+                fontSize: 12,
+                color: "rgba(255,255,255,0.4)",
+                marginBottom: 28,
+                letterSpacing: "0.04em",
+                fontWeight: 500,
+              }}
+            >
+              {tradeDef.label.toUpperCase()} · STEP 5 OF 5
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: 24,
+                alignItems: "flex-start",
+                flexWrap: "wrap",
+              }}
+            >
+              {/* Avatar */}
+              <div
+                style={{
+                  width: 88,
+                  height: 88,
+                  borderRadius: 20,
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06))",
+                  border: "2px solid rgba(255,255,255,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 42,
+                  flexShrink: 0,
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                {vendor.emoji}
+              </div>
+
+              {/* Name + Meta */}
+              <div style={{ flex: 1, minWidth: 200 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    flexWrap: "wrap",
+                    marginBottom: 6,
+                  }}
+                >
+                  <h1
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontSize: 30,
+                      fontWeight: 900,
+                      color: "white",
+                      margin: 0,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {vendor.name}
+                  </h1>
+                  {vendor.verified && (
+                    <Badge color={D.accent} bg="rgba(16,185,129,0.18)">
+                      ✓ Verified
+                    </Badge>
+                  )}
+                </div>
+                <div
+                  style={{
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.55)",
+                    marginBottom: 20,
+                  }}
+                >
+                  {tradeDef.label} Specialist · 📍 {vendor.loc}
+                </div>
+
+                {/* Stats row */}
+                <div
+                  style={{
+                    display: "inline-flex",
+                    gap: 0,
+                    background: "rgba(255,255,255,0.07)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: 12,
+                    overflow: "hidden",
+                  }}
+                >
+                  {[
+                    [vendor.rating, "Rating", D.gold],
+                    [vendor.reviews, "Reviews", "rgba(255,255,255,0.9)"],
+                    [vendor.jobs, "Jobs", "rgba(255,255,255,0.9)"],
+                    ["5 yrs", "On Servzo", "rgba(255,255,255,0.9)"],
+                  ].map(([v, k, color], i) => (
+                    <div
+                      key={k as string}
+                      style={{
+                        padding: "12px 20px",
+                        textAlign: "center",
+                        borderRight:
+                          i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'Fraunces', serif",
+                          fontSize: 20,
+                          fontWeight: 700,
+                          color: color as string,
+                          lineHeight: 1,
+                        }}
+                      >
+                        {v as string}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: "rgba(255,255,255,0.4)",
+                          marginTop: 4,
+                          fontWeight: 500,
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        {k as string}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Price Card */}
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: 16,
+                  padding: "18px 24px",
+                  textAlign: "center",
+                  backdropFilter: "blur(8px)",
+                  flexShrink: 0,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.45)",
+                    letterSpacing: "0.06em",
+                    fontWeight: 600,
+                    marginBottom: 6,
+                  }}
+                >
+                  QUOTED PRICE
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 32,
+                    fontWeight: 900,
+                    color: "white",
+                    lineHeight: 1,
+                  }}
+                >
+                  {vendor.price}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.35)",
+                    marginTop: 6,
+                  }}
+                >
+                  all-inclusive estimate
+                </div>
+              </div>
+            </div>
+
+            {/* Tab underline spacer */}
+            <div style={{ height: 32 }} />
+          </div>
+        </div>
+
+        {/* ── BODY ──────────────────────────────────────────────────────── */}
+        <div
+          style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px 0" }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 340px",
+              gap: 20,
+              alignItems: "start",
+            }}
+          >
+            {/* LEFT COLUMN */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {/* Reviews */}
+              <Card>
+                <CardHeader>
+                  ⭐ Customer Reviews <Stars r={vendor.rating} size={12} />
+                </CardHeader>
+                <div style={{ padding: "6px 0" }}>
+                  {REVIEWS.map((r, i) => (
+                    <div
+                      key={r.name}
+                      style={{
+                        padding: "18px 22px",
+                        borderBottom:
+                          i < REVIEWS.length - 1
+                            ? `1px solid ${D.border}`
+                            : "none",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 12,
+                          marginBottom: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: "50%",
+                            background: r.color,
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: 15,
+                            fontWeight: 700,
+                            flexShrink: 0,
+                          }}
+                        >
+                          {r.name[0]}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                color: D.ink,
+                              }}
+                            >
+                              {r.name}
+                            </span>
+                            <span style={{ fontSize: 12, color: D.inkLight }}>
+                              {r.date}
+                            </span>
+                          </div>
+                          <Stars r={r.rating} size={12} />
+                        </div>
+                      </div>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: 14,
+                          color: D.inkMid,
+                          lineHeight: 1.65,
+                          paddingLeft: 50,
+                        }}
+                      >
+                        {r.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Past Jobs */}
+              <Card>
+                <CardHeader>💼 Past Jobs</CardHeader>
+                <div style={{ padding: "6px 0" }}>
+                  {PAST_JOBS.map((j, i) => (
+                    <div
+                      key={j.name}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 14,
+                        padding: "14px 22px",
+                        borderBottom:
+                          i < PAST_JOBS.length - 1
+                            ? `1px solid ${D.border}`
+                            : "none",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 10,
+                          background: D.surfaceAlt,
+                          border: `1px solid ${D.border}`,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: 18,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {j.icon}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: D.ink,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {j.name}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 12,
+                            color: D.inkLight,
+                            marginTop: 2,
+                          }}
+                        >
+                          {j.meta}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 700,
+                          color: D.ink,
+                          whiteSpace: "nowrap",
+                          flexShrink: 0,
+                          background: D.surfaceAlt,
+                          padding: "4px 10px",
+                          borderRadius: 8,
+                          border: `1px solid ${D.border}`,
+                        }}
+                      >
+                        {j.price}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+
+            {/* RIGHT COLUMN */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {/* Credentials */}
+              <Card>
+                <CardHeader>🔖 Credentials</CardHeader>
+                <div
+                  style={{
+                    padding: "14px 18px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                  }}
+                >
+                  {[
+                    ["📜", "CIBSE Certified Installer", D.blueSoft, D.blue],
+                    [
+                      "🛡",
+                      "Servzo Identity Verified",
+                      "rgba(16,185,129,0.08)",
+                      D.accent,
+                    ],
+                    ["💰", "GST Registered Business", D.surfaceAlt, D.inkMid],
+                    ["🔒", "Insured up to ₹10 Lakhs", D.surfaceAlt, D.inkMid],
+                  ].map(([ic, lb, bg, color]) => (
+                    <div
+                      key={lb as string}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        padding: "10px 12px",
+                        borderRadius: D.radiusSm,
+                        background: bg as string,
+                        border: `1px solid ${D.border}`,
+                      }}
+                    >
+                      <span style={{ fontSize: 16, lineHeight: 1 }}>
+                        {ic as string}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 500,
+                          color: color as string,
+                        }}
+                      >
+                        {lb as string}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Skills */}
+              <Card>
+                <CardHeader>⚡ Specialisations</CardHeader>
+                <div style={{ padding: "16px 18px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {[
+                      "Porcelain",
+                      "Marble",
+                      "Mosaic",
+                      "Herringbone",
+                      "Outdoor Tiling",
+                      "Bathroom Waterproofing",
+                      "Subfloor Levelling",
+                      "Grout Sealing",
+                    ].map((s) => (
+                      <span
+                        key={s}
+                        style={{
+                          padding: "5px 12px",
+                          borderRadius: 99,
+                          background: D.surfaceAlt,
+                          border: `1.5px solid ${D.border}`,
+                          fontSize: 12,
+                          fontWeight: 500,
+                          color: D.inkMid,
+                        }}
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Service Area */}
+              <Card>
+                <CardHeader>📍 Service Area</CardHeader>
+                <div style={{ padding: "14px 18px" }}>
+                  {[
+                    "Kothrud",
+                    "Baner",
+                    "Aundh",
+                    "Wakad",
+                    "Hinjewadi",
+                    "Koregaon Park",
+                  ].map((area) => (
+                    <div
+                      key={area}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 5,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        color: D.ink,
+                        padding: "5px 12px",
+                        margin: "0 6px 6px 0",
+                        borderRadius: 99,
+                        background: D.surfaceAlt,
+                        border: `1.5px solid ${D.border}`,
+                      }}
+                    >
+                      {area}
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── ACTION BAR ────────────────────────────────────────────────── */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: "rgba(255,255,255,0.95)",
+          backdropFilter: "blur(16px)",
+          borderTop: `1px solid ${D.border}`,
+          padding: "14px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          zIndex: 100,
+          boxShadow: "0 -4px 24px rgba(13,27,42,0.08)",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: D.inkLight,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+            }}
+          >
+            Step 5 of 5
+          </div>
+          <div
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: D.ink,
+              marginTop: 1,
+            }}
+          >
+            {vendor.name} ·{" "}
+            <span style={{ color: D.accent }}>Verified Vendor</span>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <button
+            onClick={() =>
+              navigate({ to: "/trade/$tradeId/quotes", params: { tradeId } })
+            }
+            style={{
+              padding: "10px 18px",
+              borderRadius: D.radiusSm,
+              border: `1.5px solid ${D.borderStrong}`,
+              background: D.surface,
+              fontSize: 14,
+              fontWeight: 600,
+              color: D.inkMid,
+              cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            ← Back
+          </button>
+          <button
+            onClick={handleAccept}
+            disabled={accepting}
+            style={{
+              padding: "10px 24px",
+              borderRadius: D.radiusSm,
+              border: "none",
+              background: accepting
+                ? D.inkLight
+                : `linear-gradient(135deg, ${D.accent}, ${D.accentDark})`,
+              fontSize: 14,
+              fontWeight: 700,
+              color: "white",
+              cursor: accepting ? "not-allowed" : "pointer",
+              fontFamily: "'DM Sans', sans-serif",
+              boxShadow: accepting ? "none" : `0 4px 16px ${D.accentGlow}`,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "all 0.2s",
+            }}
+          >
+            <span>✅</span>
+            <span>Accept Quote · {vendor.price}</span>
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
