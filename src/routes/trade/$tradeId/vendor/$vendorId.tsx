@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { T } from "@/lib/theme";
 import { BUILDING_TRADE_DEFS, TRADE_DEFS } from "@/lib/tradeDefs";
 
 export const Route = createFileRoute("/trade/$tradeId/vendor/$vendorId")({
@@ -1113,6 +1112,7 @@ function VendorProfileScreen() {
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <button
+            type="button"
             onClick={() =>
               navigate({ to: "/trade/$tradeId/quotes", params: { tradeId } })
             }
@@ -1131,6 +1131,7 @@ function VendorProfileScreen() {
             ← Back
           </button>
           <button
+            type="button"
             onClick={handleAccept}
             disabled={accepting}
             style={{

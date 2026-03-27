@@ -151,6 +151,7 @@ function TradeHubScreen() {
 										{def.label}
 									</div>
 									<button
+										type="button"
 										className="btn-sm btn-sm-p"
 										onClick={() =>
 											navigate({
@@ -175,6 +176,7 @@ function TradeHubScreen() {
 				</span>
 				<div className="ab-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() => navigate({ to: "/project" })}
 					>

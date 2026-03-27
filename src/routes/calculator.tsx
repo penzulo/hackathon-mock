@@ -59,12 +59,14 @@ const Icon = ({ type, size = 20, color = NAVY }) => {
 	const icons = {
 		location: (
 			<svg style={s} viewBox="0 0 24 24" {...p}>
+				<title>SVG Title</title>
 				<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
 				<circle cx="12" cy="9" r="2.5" />
 			</svg>
 		),
 		fresh: (
 			<svg style={s} viewBox="0 0 24 24" {...p}>
+				<title>SVG Title</title>
 				<rect x="3" y="3" width="18" height="18" rx="3" />
 				<path d="M12 8v8M8 12h8" />
 			</svg>
