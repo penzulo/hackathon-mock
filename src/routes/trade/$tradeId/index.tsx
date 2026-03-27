@@ -13,7 +13,7 @@ export const Route = createFileRoute("/trade/$tradeId/")({
 	validateSearch: (search: Record<string, unknown>): TradeSearchDeps => {
 		return {
 			projectId: search.projectId as string | undefined,
-		}
+		};
 	},
 	component: TradeTemplateScreen,
 });
@@ -918,7 +918,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 			},
 			{ id: "done", title: "Interior template complete!", sub: "" },
 		],
-	}
+	};
 	return base[tradeId] || base.tiling;
 }
 
@@ -940,7 +940,7 @@ function TradeTemplateScreen() {
 	const [ans, setAns] = useState<Record<string, any>>({
 		len: "",
 		wid: "",
-	})
+	});
 
 	if (!def || !slides) return <div>Trade not found</div>;
 
@@ -956,7 +956,7 @@ function TradeTemplateScreen() {
 		setSlide((s) => s + d);
 		setAnimKey((k) => k + 1);
 		window.scrollTo({ top: 0, behavior: "smooth" });
-	}
+	};
 
 	const canNext = () => {
 		if (s.required && s.field) return !!ans[s.field];
@@ -965,7 +965,7 @@ function TradeTemplateScreen() {
 			return s.checks.every((c: any) => !!ans[c.f]);
 		}
 		return true;
-	}
+	};
 
 	const handleDone = () => {
 		if (projectId) {
@@ -976,7 +976,7 @@ function TradeTemplateScreen() {
 			// SINGLE JOB FLOW: Proceed to review screen
 			navigate({ to: "/trade/$tradeId/review", params: { tradeId } });
 		}
-	}
+	};
 
 	const handleBack = () => {
 		if (slide === 0) {
@@ -986,9 +986,9 @@ function TradeTemplateScreen() {
 				navigate({ to: "/trade" });
 			}
 		} else {
-			go(-1)
+			go(-1);
 		}
-	}
+	};
 
 	return (
 		<div className="slide-wrap">
@@ -1189,8 +1189,8 @@ function TradeTemplateScreen() {
 								type="button"
 								className="option-row not-sure"
 								onClick={() => {
-									sel("len", "0")
-									sel("wid", "0")
+									sel("len", "0");
+									sel("wid", "0");
 								}}
 							>
 								<div
@@ -1342,5 +1342,5 @@ function TradeTemplateScreen() {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }
