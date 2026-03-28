@@ -218,4 +218,83 @@ body { font-family:'Lato',sans-serif; background:${T.bg}; color:${T.ink}; min-he
 @keyframes tickPop { 0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(4deg);opacity:1} 100%{transform:scale(1) rotate(0);opacity:1} }
 @keyframes ringExpand { 0%{transform:scale(0.5);opacity:1} 100%{transform:scale(2.2);opacity:0} }
 @keyframes textFadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-`;
+/* --- MOBILE RESPONSIVE OVERRIDES --- */
+@media (max-width: 768px) {
+  /* --- Topbar Mobile Grid Fix --- */
+  .topbar { 
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+      "logo profile"
+      "nav nav";
+    padding: 12px 16px; 
+    height: auto; 
+    gap: 12px 0; 
+  }
+  
+  .topbar > a { grid-area: logo; align-self: center; }
+  .topbar-right { grid-area: profile; align-self: center; }
+  
+  /* Hide the name string, keep the avatar */
+  .topbar-name { display: none; }
+
+  /* Make nav a neat, scrollable horizontal row */
+  .nav { 
+    grid-area: nav;
+    width: 100%;
+    flex-wrap: nowrap; 
+    justify-content: flex-start; 
+    overflow-x: auto; /* Allows swiping left/right */
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+  }
+  
+  /* Hides scrollbar in Chrome/Safari/Edge */
+  .nav::-webkit-scrollbar { display: none; }
+
+  /* Shrink nav buttons slightly and prevent text from wrapping */
+  .nav-btn {
+    white-space: nowrap;
+    padding: 6px 12px;
+  }
+
+  /* Fix heavy paddings */
+  .flow-header { padding: 0 16px; }
+  .page { padding: 24px 16px 80px; }
+  .action-bar { padding: 14px 16px; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .slide-body { padding: 32px 16px 100px; }
+
+  /* Fix hardcoded grids breaking out of frame */
+  .quotes-grid { grid-template-columns: 1fr; gap: 12px; }
+  .feature-row { grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+  .profile-grid { grid-template-columns: 1fr; gap: 12px; }
+  .option-grid { grid-template-columns: 1fr; }
+  .meas-inputs { grid-template-columns: 1fr; }
+  
+  /* Fix specific components for small screens */
+  .profile-hero { flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; gap: 16px; }
+  .verified-pill { margin: 0 auto; align-self: center; }
+  .search-h1 { font-size: 32px; }
+  .search-sub { font-size: 15px; }
+  
+  /* Allow horizontal scrolling for flow steps if they are too long */
+  .flow-steps { width: 100%; max-width: 100vw; overflow-x: auto; padding-bottom: 8px; justify-content: flex-start; }
+}
+  /* Slim down the chunky search bar */
+  .search-input { 
+    padding: 12px 16px; 
+    font-size: 14px; 
+  }
+  
+  .search-go { 
+    padding: 12px 16px; 
+    font-size: 14px; 
+    white-space: nowrap; /* Prevents the text from stacking weirdly */
+  }
+
+  /* Optional: Shrink the quick-search chips slightly to match */
+  .chip {
+    padding: 6px 12px;
+    font-size: 12px;
+  }`;

@@ -151,6 +151,12 @@
 			box-sizing: border-box;
 		}
 	}
+	/* Add a smaller breakpoint for narrow mobile phones */
+	@media (max-width: 600px) {
+		li {
+			flex: 1 1 100%; /* Forces buttons to stack in a single column */
+		}
+	}
 }
 
 #spacer {
