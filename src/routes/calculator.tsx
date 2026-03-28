@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { type CSSProperties, type SVGProps, useEffect, useState } from "react";
 
 // ── ROUTE EXPORT ───────────────────────────────────────────────
 export const Route = createFileRoute("/calculator")({
@@ -15,6 +15,122 @@ const GRAY_TEXT = "#6B7280";
 const LIGHT_BLUE = "#EBF0FA";
 const GREEN_TEXT = "#22863A";
 const GREEN_BG = "#F0FDF4";
+
+const icons = {
+	location: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<title>SVG Title</title>
+			<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+			<circle cx="12" cy="9" r="2.5" />
+		</svg>
+	),
+	fresh: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<title>SVG Title</title>
+			<rect x="3" y="3" width="18" height="18" rx="3" />
+			<path d="M12 8v8M8 12h8" />
+		</svg>
+	),
+	repaint: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" />
+			<path d="M8 12h8M8 8h8M8 16h4" />
+		</svg>
+	),
+	question: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<circle cx="12" cy="12" r="10" />
+			<path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01" />
+		</svg>
+	),
+	home: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10" />
+		</svg>
+	),
+	full: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<rect x="3" y="3" width="18" height="18" rx="2" />
+			<path d="M3 9h18M9 3v18" />
+		</svg>
+	),
+	rooms: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<rect x="3" y="3" width="7" height="7" rx="1" />
+			<rect x="14" y="3" width="7" height="7" rx="1" />
+			<rect x="3" y="14" width="7" height="7" rx="1" />
+			<rect x="14" y="14" width="7" height="7" rx="1" />
+		</svg>
+	),
+	bed: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M2 12h20M2 20h20M4 12V7a2 2 0 012-2h12a2 2 0 012 2v5M7 8h4M13 8h4" />
+		</svg>
+	),
+	sofa: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M4 11V8a4 4 0 014-4h8a4 4 0 014 4v3M2 11v4a2 2 0 002 2h16a2 2 0 002-2v-4a2 2 0 00-2-2H4a2 2 0 00-2 2zM4 17v2M20 17v2" />
+		</svg>
+	),
+	kitchen: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M6 2v6M10 2v4a2 2 0 01-2 2H4M18 2v20M16 10h4" />
+		</svg>
+	),
+	bath: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M4 12h16M6 12v4a4 4 0 004 4h4a4 4 0 004-4v-4M6 12V6a2 2 0 012-2 2 2 0 012 2v1" />
+		</svg>
+	),
+	balcony: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<rect x="3" y="3" width="18" height="18" rx="2" />
+			<path d="M3 12h18M8 12v9M16 12v9" />
+		</svg>
+	),
+	child: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<circle cx="12" cy="8" r="5" />
+			<path d="M4 21v-1a6 6 0 0112 0v1" />
+		</svg>
+	),
+	pray: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M12 2v4M6 6l2 2M18 6l-2 2M12 22v-6M8 12a4 4 0 018 0" />
+		</svg>
+	),
+	stairs: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<path d="M4 20h4v-4h4v-4h4v-4h4" />
+		</svg>
+	),
+	ceiling: (s: CSSProperties, p: SVGProps<SVGSVGElement>) => (
+		<svg style={s} viewBox="0 0 24 24" {...p}>
+			<rect x="2" y="4" width="20" height="4" rx="1" />
+			<path d="M6 8v12M18 8v12M2 20h20" />
+		</svg>
+	),
+	check: (s: CSSProperties) => (
+		<svg
+			style={s}
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke={GREEN_TEXT}
+			strokeWidth="3"
+		>
+			<circle cx="12" cy="12" r="10" />
+			<path d="M8 12l3 3 5-5" />
+		</svg>
+	),
+} as const;
+
+type IconType = keyof typeof icons;
+
+type IconProps = {
+	type: IconType;
+	size?: number;
+	color?: string;
+};
 
 // ── RESPONSIVE HOOK ───────────────────────────────────────────
 function useIsDesktop(bp = 768) {
@@ -53,121 +169,21 @@ const GLOBAL_CSS = `
 `;
 
 // ── ICONS ──────────────────────────────────────────────────────
-const Icon = ({ type, size = 20, color = NAVY }) => {
-	const s = { width: size, height: size };
-	const p = { stroke: color, strokeWidth: "2", fill: "none" };
-	const icons = {
-		location: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<title>SVG Title</title>
-				<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-				<circle cx="12" cy="9" r="2.5" />
-			</svg>
-		),
-		fresh: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<title>SVG Title</title>
-				<rect x="3" y="3" width="18" height="18" rx="3" />
-				<path d="M12 8v8M8 12h8" />
-			</svg>
-		),
-		repaint: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" />
-				<path d="M8 12h8M8 8h8M8 16h4" />
-			</svg>
-		),
-		question: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<circle cx="12" cy="12" r="10" />
-				<path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01" />
-			</svg>
-		),
-		home: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10" />
-			</svg>
-		),
-		full: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<rect x="3" y="3" width="18" height="18" rx="2" />
-				<path d="M3 9h18M9 3v18" />
-			</svg>
-		),
-		rooms: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<rect x="3" y="3" width="7" height="7" rx="1" />
-				<rect x="14" y="3" width="7" height="7" rx="1" />
-				<rect x="3" y="14" width="7" height="7" rx="1" />
-				<rect x="14" y="14" width="7" height="7" rx="1" />
-			</svg>
-		),
-		bed: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M2 12h20M2 20h20M4 12V7a2 2 0 012-2h12a2 2 0 012 2v5M7 8h4M13 8h4" />
-			</svg>
-		),
-		sofa: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M4 11V8a4 4 0 014-4h8a4 4 0 014 4v3M2 11v4a2 2 0 002 2h16a2 2 0 002-2v-4a2 2 0 00-2-2H4a2 2 0 00-2 2zM4 17v2M20 17v2" />
-			</svg>
-		),
-		kitchen: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M6 2v6M10 2v4a2 2 0 01-2 2H4M18 2v20M16 10h4" />
-			</svg>
-		),
-		bath: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M4 12h16M6 12v4a4 4 0 004 4h4a4 4 0 004-4v-4M6 12V6a2 2 0 012-2 2 2 0 012 2v1" />
-			</svg>
-		),
-		balcony: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<rect x="3" y="3" width="18" height="18" rx="2" />
-				<path d="M3 12h18M8 12v9M16 12v9" />
-			</svg>
-		),
-		child: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<circle cx="12" cy="8" r="5" />
-				<path d="M4 21v-1a6 6 0 0112 0v1" />
-			</svg>
-		),
-		pray: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M12 2v4M6 6l2 2M18 6l-2 2M12 22v-6M8 12a4 4 0 018 0" />
-			</svg>
-		),
-		stairs: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<path d="M4 20h4v-4h4v-4h4v-4h4" />
-			</svg>
-		),
-		ceiling: (
-			<svg style={s} viewBox="0 0 24 24" {...p}>
-				<rect x="2" y="4" width="20" height="4" rx="1" />
-				<path d="M6 8v12M18 8v12M2 20h20" />
-			</svg>
-		),
-		check: (
-			<svg
-				style={s}
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke={GREEN_TEXT}
-				strokeWidth="3"
-			>
-				<circle cx="12" cy="12" r="10" />
-				<path d="M8 12l3 3 5-5" />
-			</svg>
-		),
+const Icon = ({ type, size = 20, color = NAVY }: IconProps) => {
+	const s: CSSProperties = { width: size, height: size };
+	const p: SVGProps<SVGSVGElement> = {
+		stroke: color,
+		strokeWidth: "2",
+		fill: "none",
 	};
-	return icons[type] || null;
+
+	const Comp = icons[type];
+
+	return Comp ? Comp(s, p) : null;
 };
 
 // ── SHARED UI ──────────────────────────────────────────────────
-const ProgressBar = ({ percent }) => (
+const ProgressBar = ({ percent }: { percent: number }) => (
 	<div
 		className="srv-mobile-only"
 		style={{
@@ -195,7 +211,15 @@ const ProgressBar = ({ percent }) => (
 	</div>
 );
 
-const NextBtn = ({ onClick, label = "Next", disabled }) => (
+const NextBtn = ({
+	onClick,
+	label = "Next",
+	disabled,
+}: {
+	onClick: () => void;
+	label?: string;
+	disabled: boolean;
+}) => (
 	<div className="srv-mobile-only" style={{ padding: "8px 24px 24px" }}>
 		<button
 			onClick={onClick}
@@ -218,7 +242,23 @@ const NextBtn = ({ onClick, label = "Next", disabled }) => (
 	</div>
 );
 
-const OptionCard = ({ icon, label, sub, selected, onClick, compact }) => (
+type OptionCardProps = {
+	icon?: IconType;
+	label: string;
+	sub?: string;
+	selected?: boolean;
+	compact?: boolean;
+	onClick?: React.MouseEventHandler<HTMLDivElement>;
+};
+
+const OptionCard = ({
+	icon,
+	label,
+	sub,
+	selected,
+	onClick,
+	compact,
+}: OptionCardProps) => (
 	<div
 		onClick={onClick}
 		style={{
@@ -517,6 +557,8 @@ const ZONE_GRADE_KEYS = {
 	balcony: ["economy", "midrange", "luxury"],
 };
 
+type RateTuple = readonly [number, number, number, number];
+
 const PRICING = {
 	grade: {
 		whitewash: [4, 6, 3, 5],
@@ -565,37 +607,82 @@ const PRICING = {
 		luxury_health_zerovoc: [27, 34, 22, 28],
 		luxury_ultra_aspira: [36, 52, 29, 45],
 	},
+} as const satisfies {
+	grade: Record<string, RateTuple>;
+	finish: Record<string, RateTuple>;
+	variant: Record<string, RateTuple>;
 };
 
-const sqftFromArea = (area, unit) => {
-	const n = parseFloat(area) || 0;
+type GradeKey = keyof typeof PRICING.grade;
+type FinishKey = keyof typeof PRICING.finish;
+type VariantKey = keyof typeof PRICING.variant;
+
+type PriceKey = GradeKey | FinishKey | VariantKey;
+type Unit = "sqft" | "sqm";
+
+const sqftFromArea = (area: number | string, unit: Unit): number => {
+	const n = typeof area === "number" ? area : parseFloat(area) || 0;
 	return unit === "sqm" ? Math.round(n * 10.764) : n;
 };
 
-const fmtRange = (min, max) => {
-	const f = (n) => (n >= 1000 ? `₹${(n / 1000).toFixed(1)}k` : `₹${n}`);
+const fmtRange = (min: number, max: number): string => {
+	const f = (n: number) => (n >= 1000 ? `₹${(n / 1000).toFixed(1)}k` : `₹${n}`);
 	return `${f(min)}–${f(max)}`;
 };
 
-const getPriceRange = (key, area, unit, isFresh) => {
-	const rates =
-		PRICING.grade[key] || PRICING.finish[key] || PRICING.variant[key];
+const getPriceRange = (
+	key: PriceKey,
+	area: number | string,
+	unit: Unit,
+	isFresh: boolean,
+) => {
+	const rates: RateTuple | undefined =
+		PRICING.grade[key as GradeKey] ??
+		PRICING.finish[key as FinishKey] ??
+		PRICING.variant[key as VariantKey];
+
 	if (!rates) return null;
+
 	const sqft = sqftFromArea(area, unit);
 	if (sqft <= 0) return null;
+
 	const [fm, fx, rm, rx] = rates;
 	const [min, max] = isFresh ? [fm, fx] : [rm, rx];
+
 	return fmtRange(Math.round(sqft * min), Math.round(sqft * max));
 };
 
-const finishPriceKey = (gradeId, finishId) => {
-	if (gradeId === "distemper") return `distemper_${finishId}`;
-	return `${gradeId}_${finishId}`;
+const finishPriceKey = (
+	gradeId: Extract<GradeKey, "distemper" | "economy" | "midrange" | "luxury">,
+	finishId: string,
+): FinishKey => {
+	return (
+		gradeId === "distemper" ? `distemper_${finishId}` : `${gradeId}_${finishId}`
+	) as FinishKey;
 };
 
-const variantPriceKey = (gradeId, finishId, variantId) =>
-	`${gradeId}_${finishId}_${variantId}`;
-const ceilingPriceKey = (id) => `${id}_ceiling`;
+const variantPriceKey = (
+	gradeId: string,
+	finishId: string,
+	variantId: string,
+): VariantKey => `${gradeId}_${finishId}_${variantId}` as VariantKey;
+
+const ceilingPriceKey = (
+	id: Extract<GradeKey, "economy" | "midrange" | "luxury">,
+): GradeKey => `${id}_ceiling` as GradeKey;
+
+type IconKey = "bed" | "kitchen" | "bath" | "balcony" | "ceiling";
+
+type ZoneKey = "dry" | "kitchen" | "bath" | "balcony" | "ceiling";
+
+type LabelItem = {
+	label: string;
+	sub: string;
+};
+
+type ZoneMetaItem = LabelItem & {
+	icon: IconKey;
+};
 
 const ZONE_META = {
 	dry: { label: "Bedrooms + Living room", sub: "All dry rooms", icon: "bed" },
@@ -603,7 +690,7 @@ const ZONE_META = {
 	bath: { label: "Bathrooms", sub: "All bathrooms", icon: "bath" },
 	balcony: { label: "Balcony", sub: "Interior face walls", icon: "balcony" },
 	ceiling: { label: "Ceilings", sub: "All selected rooms", icon: "ceiling" },
-};
+} as const satisfies Record<ZoneKey, ZoneMetaItem>;
 
 const ZONE_CONDITIONS = {
 	dry: [
@@ -638,15 +725,21 @@ const ZONE_CONDITIONS = {
 		{ label: "Water stains / marks", sub: "Leakage marks from above" },
 		{ label: "Peeling or flaking", sub: "Paint coming off overhead" },
 	],
-};
+} as const satisfies Record<ZoneKey, readonly LabelItem[]>;
 
-const MICRO_OPTIONS = ["Cracks", "Stains", "Uneven surface", "White powder"];
+const MICRO_OPTIONS = [
+	"Cracks",
+	"Stains",
+	"Uneven surface",
+	"White powder",
+] as const;
 
 const JOB_TYPE_LABELS = [
 	"Fresh paint (new construction)",
 	"Repaint existing walls",
 	"Not sure (treated as repaint)",
-];
+] as const;
+
 const PROPERTY_LABELS = [
 	"Studio apartment",
 	"1 BHK",
@@ -654,14 +747,16 @@ const PROPERTY_LABELS = [
 	"3 BHK",
 	"Bungalow / Villa",
 	"Row house",
-];
+] as const;
+
 const TIMELINE_LABELS = [
 	"ASAP",
 	"Within 1 week",
 	"Within 2 weeks",
 	"Just exploring",
-];
-const CEILING_LABELS = ["Yes — ceilings included", "No — walls only"];
+] as const;
+
+const CEILING_LABELS = ["Yes — ceilings included", "No — walls only"] as const;
 
 const PRODUCT_CODE_MAP = {
 	whitewash: "PR-WH-LIM-STD-PUN",
@@ -693,7 +788,7 @@ const PRODUCT_CODE_MAP = {
 	ceiling_economy: "PR-CL-EC-STD-PUN",
 	ceiling_midrange: "PR-CL-MR-AS-PUN",
 	ceiling_luxury: "PR-CL-LX-STD-PUN",
-};
+} as const;
 
 const BRAND_MAP = {
 	"PR-WH-LIM-STD-PUN": ["Generic slaked lime + Fevicol binder"],
@@ -809,7 +904,7 @@ const BRAND_MAP = {
 		"Nerolac — Impressions Ceiling Coat (Anti-Sag)",
 	],
 	"PR-CL-LX-STD-PUN": ["Asian Paints — Royale ATMOS (Anti-Pollution Ceiling)"],
-};
+} as const satisfies Record<string, readonly string[]>;
 
 const PREP_STEPS = {
 	dry: {
@@ -947,38 +1042,89 @@ const PREP_STEPS = {
 			"Apply anti-sag ceiling emulsion — two coats minimum.",
 		],
 	},
+} as const satisfies {
+	dry: Record<number, readonly string[]>;
+	kitchen: Record<number, readonly string[]>;
+	bath: Record<number, readonly string[]>;
+	balcony: Record<number, readonly string[]>;
+	ceiling: Record<number, readonly string[]>;
 };
 
-const getRawRange = (key, area, unit, isFresh) => {
+const getRawRange = (
+	key: PriceKey,
+	area: number | string,
+	unit: Unit,
+	isFresh: boolean,
+): { min: number; max: number } | null => {
 	const rates =
-		PRICING.grade[key] || PRICING.finish[key] || PRICING.variant[key];
+		PRICING.grade[key as keyof typeof PRICING.grade] ??
+		PRICING.finish[key as keyof typeof PRICING.finish] ??
+		PRICING.variant[key as keyof typeof PRICING.variant];
+
 	if (!rates) return null;
+
 	const sqft = sqftFromArea(area, unit);
 	if (sqft <= 0) return null;
+
 	const [fm, fx, rm, rx] = rates;
 	const [min, max] = isFresh ? [fm, fx] : [rm, rx];
+
 	return { min: Math.round(sqft * min), max: Math.round(sqft * max) };
 };
 
-const fmtRupee = (n) => `₹${Math.round(n).toLocaleString("en-IN")}`;
+const fmtRupee = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
 
-const getZoneSelectionTrail = (zoneKey, zs) => {
+type GradeId = keyof typeof GRADE_DATA;
+type CeilingGradeId = (typeof CEILING_GRADES)[number]["id"];
+
+type ZoneSelection = {
+	grade?: GradeId | CeilingGradeId;
+	distemperType?: string;
+	finish?: string;
+	variant?: string;
+	healthProduct?: string;
+};
+
+type ZoneState = {
+	area: string;
+	areaUnit: Unit;
+	grade: GradeId | CeilingGradeId | null;
+	finish: string | null;
+	variant: string | null;
+	distemperType: string | null;
+	healthProduct: string | null;
+	condition: number | null;
+	micro: number[];
+};
+
+const getZoneSelectionTrail = (
+	zoneKey: ZoneKey,
+	zs: ZoneSelection | null | undefined,
+) => {
 	if (!zs || !zs.grade) return "—";
+
 	const isCeiling = zoneKey === "ceiling";
+
 	if (isCeiling)
 		return CEILING_GRADES.find((g) => g.id === zs.grade)?.label || zs.grade;
-	const gradeLabel = GRADE_DATA[zs.grade]?.label || zs.grade;
-	const parts = [gradeLabel];
+
+	const gradeKey = zs.grade as keyof typeof GRADE_DATA;
+	const gradeLabel = GRADE_DATA[gradeKey]?.label ?? zs.grade;
+
+	const parts: string[] = [gradeLabel];
+
 	if (zs.grade === "distemper" && zs.distemperType) {
-		const dt = GRADE_DATA.distemper.types.find(
+		const dt = GRADE_DATA.distemper?.types?.find(
 			(t) => t.id === zs.distemperType,
 		);
 		if (dt) parts.push(dt.label);
 	} else if (zs.finish) {
-		const gd = GRADE_DATA[zs.grade];
+		const gd = GRADE_DATA[gradeKey];
 		const fd = gd?.finishes?.find((f) => f.id === zs.finish);
+
 		if (fd) {
 			parts.push(fd.label);
+
 			if (fd.isSingle) parts.push("Royale Aspira");
 			else if (fd.isHealth && zs.healthProduct) {
 				const hp = fd.products?.find((p) => p.id === zs.healthProduct);
@@ -992,7 +1138,7 @@ const getZoneSelectionTrail = (zoneKey, zs) => {
 	return parts.join(" → ");
 };
 
-const getZonePriceKey = (zoneKey, zs) => {
+const getZonePriceKey = (zoneKey: ZoneKey, zs: ZoneSelection) => {
 	if (!zs || !zs.grade) return null;
 	const isCeiling = zoneKey === "ceiling";
 	if (isCeiling) return `${zs.grade}_ceiling`;
@@ -1005,24 +1151,46 @@ const getZonePriceKey = (zoneKey, zs) => {
 	return zs.grade;
 };
 
+type ProductCodeMap = typeof PRODUCT_CODE_MAP;
+
+type ProductKey = keyof ProductCodeMap;
+
+// pattern-based subsets
+type CeilingKey = Extract<ProductKey, `ceiling_${string}`>;
+type DistemperKey = Extract<ProductKey, `distemper_${string}`>;
+
 const resolveProductCode = (
-	grade,
-	finish,
-	variant,
-	distemperType,
-	healthProduct,
-	isCeiling,
-) => {
-	if (isCeiling) return PRODUCT_CODE_MAP[`ceiling_${grade}`] || "PR-UNKNOWN";
-	if (grade === "whitewash") return PRODUCT_CODE_MAP.whitewash;
-	if (grade === "distemper" && distemperType)
-		return PRODUCT_CODE_MAP[`distemper_${distemperType}`] || "PR-UNKNOWN";
-	if (finish && variant)
-		return PRODUCT_CODE_MAP[`${grade}_${finish}_${variant}`] || "PR-UNKNOWN";
-	if (finish && healthProduct)
-		return (
-			PRODUCT_CODE_MAP[`${grade}_${finish}_${healthProduct}`] || "PR-UNKNOWN"
-		);
+	grade: GradeKey,
+	finish?: FinishKey,
+	variant?: string,
+	distemperType?: string,
+	healthProduct?: string,
+	isCeiling?: boolean,
+): ProductCodeMap[ProductKey] | "PR-UNKNOWN" => {
+	if (isCeiling) {
+		const key = `ceiling_${grade}` as CeilingKey;
+		return PRODUCT_CODE_MAP[key] ?? "PR-UNKNOWN";
+	}
+
+	if (grade === "whitewash") {
+		return PRODUCT_CODE_MAP.whitewash;
+	}
+
+	if (grade === "distemper" && distemperType) {
+		const key = `distemper_${distemperType}` as DistemperKey;
+		return PRODUCT_CODE_MAP[key] ?? "PR-UNKNOWN";
+	}
+
+	if (finish && variant) {
+		const key = `${grade}_${finish}_${variant}` as VariantKey;
+		return PRODUCT_CODE_MAP[key] ?? "PR-UNKNOWN";
+	}
+
+	if (finish && healthProduct) {
+		const key = `${grade}_${finish}_${healthProduct}` as VariantKey;
+		return PRODUCT_CODE_MAP[key] ?? "PR-UNKNOWN";
+	}
+
 	return "PR-UNKNOWN";
 };
 
@@ -1050,8 +1218,34 @@ const SHARED_CSS = `
   @media print { body { font-size: 12px; } .page { padding: 16px; } }
 `;
 
+type ZoneDocData = {
+	zoneKey: ZoneKey;
+	zoneLabel: string;
+	area: number;
+	selectionTrail: string;
+	productCode: string;
+	conditionLabel: string;
+	conditionIndex: number;
+	micro: number[];
+	estimateFormatted: string;
+};
+
+type CustomerDocParams = {
+	jobTypeLabel: string;
+	propertyLabel: string;
+	timelineLabel: string;
+	location: string;
+	zones: ZoneDocData[];
+	totalMin: number;
+	totalMax: number;
+	rfqId: string;
+	generatedAt: string;
+	isFresh: boolean;
+};
+
+type VendorDocParams = Omit<CustomerDocParams, "totalMin" | "totalMax">;
+
 const buildCustomerDoc = ({
-	jobTypeLabel,
 	propertyLabel,
 	timelineLabel,
 	location,
@@ -1061,7 +1255,7 @@ const buildCustomerDoc = ({
 	rfqId,
 	generatedAt,
 	isFresh,
-}) => {
+}: CustomerDocParams) => {
 	const jobLabel = isFresh
 		? "Fresh Paint (New Construction)"
 		: "Repaint Existing Walls";
@@ -1075,7 +1269,6 @@ const buildCustomerDoc = ({
 };
 
 const buildVendorDoc = ({
-	jobTypeLabel,
 	propertyLabel,
 	timelineLabel,
 	location,
@@ -1083,7 +1276,7 @@ const buildVendorDoc = ({
 	rfqId,
 	generatedAt,
 	isFresh,
-}) => {
+}: VendorDocParams) => {
 	const jobLabel = isFresh
 		? "Fresh Paint (New Construction)"
 		: "Repaint Existing Walls";
@@ -1115,7 +1308,7 @@ const buildVendorDoc = ({
 	return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Servzo — Vendor Spec ${rfqId}</title><style>${SHARED_CSS}</style></head><body><div class="page"><div class="header"><div><div class="logo">Serv<span>zo</span></div><div style="font-size:12px;color:#6B7280;margin-top:4px">Vendor Technical Specification</div></div><div style="text-align:right"><div style="font-size:11px;color:#6B7280">RFQ ID</div><div style="font-size:15px;font-weight:700">${rfqId}</div><div style="font-size:11px;color:#6B7280;margin-top:4px">${generatedAt}</div></div></div><div style="background:#FEF3C7;border:1.5px solid #D97706;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:700;color:#92400E;margin-bottom:18px">VENDOR COPY — CONFIDENTIAL — Do not share with customer</div><div class="meta"><div class="mi"><span class="ml">Job Type</span><span class="mv">${jobLabel}</span></div><div class="mi"><span class="ml">Property</span><span class="mv">${propertyLabel}</span></div><div class="mi"><span class="ml">Location</span><span class="mv">${location || "Pune"}</span></div><div class="mi"><span class="ml">Timeline</span><span class="mv">${timelineLabel}</span></div></div><h2>Zone Specifications</h2>${zoneBlocks}<h2 style="margin-top:28px">Quote Summary Table</h2><table><thead><tr><th>Zone</th><th>Area</th><th>Product Code</th><th>Your Quote (₹)</th></tr></thead><tbody>${quoteRows}<tr><td colspan="3" style="font-weight:700;text-align:right;padding-right:14px">TOTAL</td><td style="border-bottom:2px solid #1B2444">&nbsp;</td></tr></tbody></table><div class="footer"><p><strong>Instructions:</strong> Quote per product codes specified. Brand substitutions require Servzo approval. Include all prep steps in quoted price. Return completed quote table within 24 hours.</p><p style="margin-top:6px">Servzo — Pune · servzo.in · vendor@servzo.in</p></div></div></body></html>`;
 };
 
-const ROOM_ITEMS = [
+const ROOM_ITEMS: { icon: IconType; label: string; zone: string }[] = [
 	{ icon: "bed", label: "Bedroom(s)", zone: "dry" },
 	{ icon: "sofa", label: "Living room", zone: "dry" },
 	{ icon: "kitchen", label: "Kitchen", zone: "kitchen" },
@@ -1127,7 +1320,23 @@ const ROOM_ITEMS = [
 ];
 
 // ── ZONE CARD ─────────────────────────────────────────────────
-function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
+type ZoneCardProps = {
+	zoneKey: ZoneKey;
+	isFresh: boolean;
+	isActive: boolean;
+	onActivate: () => void;
+	state: ZoneState;
+	onChange: (s: ZoneState) => void;
+};
+
+function ZoneCard({
+	zoneKey,
+	isFresh,
+	isActive,
+	onActivate,
+	state,
+	onChange,
+}: ZoneCardProps) {
 	const isCeiling = zoneKey === "ceiling";
 	const meta = ZONE_META[zoneKey];
 	const {
@@ -1185,8 +1394,9 @@ function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
 		gradeDecisionMade &&
 		(isFresh || condition !== null);
 
-	const up = (patch) => onChange({ ...state, ...patch });
-	const gp = (key) => getPriceRange(key, area, areaUnit, isFresh);
+	const up = (patch: Partial<ZoneState>) => onChange({ ...state, ...patch });
+	const gp = (key: string) =>
+		getPriceRange(key as PriceKey, area, areaUnit, isFresh);
 
 	const buildSummary = () => {
 		if (!grade) return null;
@@ -1246,7 +1456,7 @@ function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
 		fontWeight: 600,
 		margin: "14px 0 8px",
 	};
-	const radioRow = (sel) => ({
+	const radioRow = (sel: boolean) => ({
 		display: "flex",
 		alignItems: "flex-start",
 		gap: 8,
@@ -1257,7 +1467,7 @@ function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
 		background: sel ? LIGHT_BLUE : "#fff",
 		transition: "all 0.15s",
 	});
-	const radioDot = (sel) => ({
+	const radioDot = (sel: boolean) => ({
 		width: 16,
 		height: 16,
 		borderRadius: "50%",
@@ -1269,7 +1479,19 @@ function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
 		marginTop: 2,
 	});
 
-	const Tiles = ({ items, selectedKey, onSelect, getPriceKey }) => (
+	type TileItem = { id: string; label: string; sub?: string };
+
+	const Tiles = ({
+		items,
+		selectedKey,
+		onSelect,
+		getPriceKey,
+	}: {
+		items: TileItem[];
+		selectedKey: string | null | undefined;
+		onSelect: (id: string) => void;
+		getPriceKey?: (id: string) => string;
+	}) => (
 		<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
 			{items.map((item) => {
 				const priceKey = getPriceKey ? getPriceKey(item.id) : item.id;
@@ -1330,7 +1552,17 @@ function ZoneCard({ zoneKey, isFresh, isActive, onActivate, state, onChange }) {
 		</div>
 	);
 
-	const RadioList = ({ items, selectedKey, onSelect, getPriceKey }) => (
+	const RadioList = ({
+		items,
+		selectedKey,
+		onSelect,
+		getPriceKey,
+	}: {
+		items: { id: string | number; label: string; sub?: string }[];
+		selectedKey: string | number | null | undefined;
+		onSelect: (id: string | number) => void;
+		getPriceKey?: (id: string) => string | null;
+	}) => (
 		<div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
 			{items.map((item) => {
 				const priceKey = getPriceKey ? getPriceKey(item.id) : null;
@@ -1709,6 +1941,19 @@ function SummaryScreen({
 	zoneStates,
 	isFresh,
 	onBack,
+}: {
+	jobType: number | null;
+	propertyType: number | null;
+	scope: number | null;
+	selectedRooms: number[];
+	ceilings: number | null;
+	timeline: number | null;
+	pincode: string;
+	address: string;
+	zones: ZoneKey[];
+	zoneStates: Partial<Record<ZoneKey, ZoneState>>;
+	isFresh: boolean;
+	onBack: () => void;
 }) {
 	const [activeTab, setActiveTab] = useState(null);
 
@@ -2318,6 +2563,24 @@ function DesktopSidebar({
 	allZonesDone,
 	doneCount,
 	zoneDoneMap,
+}: {
+	screen: number;
+	setScreen: React.Dispatch<React.SetStateAction<number>>;
+	canNext: () => boolean;
+	onNext: () => void;
+	onBack: () => void;
+	zones: ZoneKey[];
+	zoneStates: Partial<Record<ZoneKey, ZoneState>>;
+	isFresh: boolean;
+	scope: number | null;
+	jobType: number | null;
+	propertyType: number | null;
+	ceilings: number | null;
+	timeline: number | null;
+	selectedRooms: number[];
+	allZonesDone: boolean;
+	doneCount: number;
+	zoneDoneMap: Record<string, boolean>;
 }) {
 	const totalRange = (() => {
 		if (!zones.length) return null;
@@ -2661,14 +2924,16 @@ function DesktopSidebar({
 function PaintingCalculator() {
 	const isDesktop = useIsDesktop();
 	const [screen, setScreen] = useState(0);
-	const [jobType, setJobType] = useState(null);
-	const [propertyType, setPropertyType] = useState(null);
-	const [scope, setScope] = useState(null);
-	const [selectedRooms, setSelectedRooms] = useState([]);
-	const [ceilings, setCeilings] = useState(null);
-	const [activeZone, setActiveZone] = useState(0);
-	const [zoneStates, setZoneStates] = useState({});
-	const [timeline, setTimeline] = useState(null);
+	const [jobType, setJobType] = useState<number | null>(null);
+	const [propertyType, setPropertyType] = useState<number | null>(null);
+	const [scope, setScope] = useState<number | null>(null);
+	const [selectedRooms, setSelectedRooms] = useState<number[]>([]);
+	const [ceilings, setCeilings] = useState<number | null>(null);
+	const [activeZone, setActiveZone] = useState<number>(0);
+	const [zoneStates, setZoneStates] = useState<
+		Partial<Record<ZoneKey, ZoneState>>
+	>({});
+	const [timeline, setTimeline] = useState<number | null>(null);
 	const [pincode, setPincode] = useState("");
 	const [address, setAddress] = useState("");
 
@@ -2680,7 +2945,7 @@ function PaintingCalculator() {
 		if (isFullFlat) {
 			w.push("dry", "kitchen", "bath", "balcony");
 		} else {
-			const has = (z) =>
+			const has = (z: string): boolean =>
 				ROOM_ITEMS.some((r, i) => r.zone === z && selectedRooms.includes(i));
 			if (has("dry")) w.push("dry");
 			if (has("kitchen")) w.push("kitchen");
@@ -2692,8 +2957,8 @@ function PaintingCalculator() {
 	};
 	const zones = getZones();
 
-	const isZoneDone = (z) => {
-		const s = zoneStates[z] || {};
+	const isZoneDone = (z: ZoneKey): boolean => {
+		const s = zoneStates[z] || ({} as ZoneState);
 		const isCeil = z === "ceiling";
 		const {
 			area,
@@ -2723,7 +2988,7 @@ function PaintingCalculator() {
 	const doneCount = zones.filter(isZoneDone).length;
 	const zoneDoneMap = Object.fromEntries(zones.map((z) => [z, isZoneDone(z)]));
 
-	const getZoneState = (z) =>
+	const getZoneState = (z: ZoneKey) =>
 		zoneStates[z] || {
 			area: "",
 			areaUnit: "sqft",
@@ -2735,7 +3000,8 @@ function PaintingCalculator() {
 			condition: null,
 			micro: [],
 		};
-	const updateZone = (z, s) => setZoneStates((prev) => ({ ...prev, [z]: s }));
+	const updateZone = (z: ZoneKey, s: ZoneState) =>
+		setZoneStates((prev) => ({ ...prev, [z]: s }));
 
 	const next = () => {
 		let n = screen + 1;

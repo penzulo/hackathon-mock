@@ -3,20 +3,22 @@ import { useState } from "react";
 import { T } from "@/lib/theme";
 import { BUILDING_TRADE_DEFS, TRADE_DEFS } from "@/lib/tradeDefs";
 import { useProjectStore } from "@/store/useProjectStore";
-import type { TradeSlide } from "@/types";
+import type { SlideCheck, SlideOpt, TradeSlide } from "@/types/trade";
+
+// ─── Route ────────────────────────────────────────────────────────────────────
 
 type TradeSearchDeps = {
 	projectId?: string;
 };
 
 export const Route = createFileRoute("/trade/$tradeId/")({
-	validateSearch: (search: Record<string, unknown>): TradeSearchDeps => {
-		return {
-			projectId: search.projectId as string | undefined,
-		};
-	},
+	validateSearch: (search: Record<string, unknown>): TradeSearchDeps => ({
+		projectId: search.projectId as string | undefined,
+	}),
 	component: TradeTemplateScreen,
 });
+
+// ─── Slide Definitions ────────────────────────────────────────────────────────
 
 function getTradeSlides(tradeId: string): TradeSlide[] {
 	const base: Record<string, TradeSlide[]> = {
@@ -44,7 +46,12 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Balcony / outdoor tiling",
 						sub: "Anti-skid rating required",
 					},
-					{ icon: "❓", name: "Not sure — vendor to advise", notSure: true },
+					{
+						icon: "❓",
+						name: "Not sure — vendor to advise",
+						sub: "",
+						notSure: true,
+					},
 				],
 			},
 			{
@@ -70,7 +77,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Damp patches visible",
 						sub: "Waterproofing needed first",
 					},
-					{ icon: "❓", name: "Not sure", notSure: true },
+					{ icon: "❓", name: "Not sure", sub: "", notSure: true },
 				],
 			},
 			{
@@ -108,36 +115,42 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						icon: "🤍",
 						bg: "#F0EFED",
 						name: "Marble / Stone look",
+						sub: "",
 						desc: "Premium, timeless",
 					},
 					{
 						icon: "✨",
 						bg: "#E8E8E8",
 						name: "High Gloss Porcelain",
+						sub: "",
 						desc: "Clean, modern",
 					},
 					{
 						icon: "🟫",
 						bg: "#D4A574",
 						name: "Wood Plank Mimics",
+						sub: "",
 						desc: "Warm, earthy",
 					},
 					{
 						icon: "🔲",
 						bg: "#B0B8C1",
 						name: "Concrete / Grey",
+						sub: "",
 						desc: "Minimalist",
 					},
 					{
 						icon: "🟤",
 						bg: "#E8C99A",
 						name: "Rustic / Terracotta",
+						sub: "",
 						desc: "Classic Indian",
 					},
 					{
 						icon: "❓",
 						bg: "#EEF2FF",
 						name: "No preference",
+						sub: "",
 						desc: "Vendor suggests",
 					},
 				],
@@ -179,7 +192,12 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					},
 					{ icon: "💧", name: "Repair only", sub: "Leak fix, joint repair" },
 					{ icon: "🚰", name: "Geyser / water heater connection", sub: "" },
-					{ icon: "❓", name: "Not sure — vendor to assess", notSure: true },
+					{
+						icon: "❓",
+						name: "Not sure — vendor to assess",
+						sub: "",
+						notSure: true,
+					},
 				],
 			},
 			{
@@ -239,7 +257,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Slow drain / blockage issue",
 						sub: "Requires clearing",
 					},
-					{ icon: "❓", name: "Not sure", notSure: true },
+					{ icon: "❓", name: "Not sure", sub: "", notSure: true },
 				],
 			},
 			{
@@ -296,7 +314,12 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					},
 					{ icon: "🔄", name: "Old wiring — full replacement", sub: "" },
 					{ icon: "➕", name: "Add points to existing wiring", sub: "" },
-					{ icon: "❓", name: "Not sure — vendor to check", notSure: true },
+					{
+						icon: "❓",
+						name: "Not sure — vendor to check",
+						sub: "",
+						notSure: true,
+					},
 				],
 			},
 			{
@@ -338,33 +361,44 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						icon: "💡",
 						bg: "#FEF9C3",
 						name: "LED Downlights",
+						sub: "",
 						desc: "Recessed, clean look",
 					},
 					{
 						icon: "🪞",
 						bg: "#EEF2FF",
 						name: "Mirror / Vanity Lights",
+						sub: "",
 						desc: "Above basin",
 					},
 					{
 						icon: "🌟",
 						bg: "#F5F3FF",
 						name: "Premium Fixtures",
+						sub: "",
 						desc: "Designer fittings",
 					},
 					{
 						icon: "💨",
 						bg: "#ECFEFF",
 						name: "Exhaust Fan",
+						sub: "",
 						desc: "Inline or wall",
 					},
 					{
 						icon: "🔆",
 						bg: "#F0FDF4",
 						name: "Nightlight point",
+						sub: "",
 						desc: "Low-level",
 					},
-					{ icon: "❓", bg: "#F7F9FC", name: "Vendor to suggest", desc: "" },
+					{
+						icon: "❓",
+						bg: "#F7F9FC",
+						name: "Vendor to suggest",
+						sub: "",
+						desc: "",
+					},
 				],
 			},
 			{
@@ -418,7 +452,12 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						sub: "Designer finish",
 					},
 					{ icon: "🌧️", name: "Exterior weatherproof", sub: "" },
-					{ icon: "❓", name: "Not sure — vendor to advise", notSure: true },
+					{
+						icon: "❓",
+						name: "Not sure — vendor to advise",
+						sub: "",
+						notSure: true,
+					},
 				],
 			},
 			{
@@ -477,7 +516,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Full surface preparation",
 						sub: "Grinding + putty + primer",
 					},
-					{ icon: "❓", name: "Standard preparation only", notSure: false },
+					{ icon: "❓", name: "Standard preparation only", sub: "" },
 				],
 			},
 			{
@@ -538,7 +577,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "No — new construction",
 						sub: "Standard 2-coat system",
 					},
-					{ icon: "❓", name: "Not sure", notSure: true },
+					{ icon: "❓", name: "Not sure", sub: "", notSure: true },
 				],
 			},
 			{
@@ -594,7 +633,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						sub: "Floor-wall joints",
 					},
 					{ icon: "🌡️", name: "Thermal insulation layer", sub: "Roof slabs" },
-					{ icon: "❓", name: "Standard scope only", notSure: false },
+					{ icon: "❓", name: "Standard scope only", sub: "" },
 				],
 			},
 			{
@@ -632,6 +671,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					{
 						icon: "❓",
 						name: "Structural consultant to advise",
+						sub: "",
 						notSure: true,
 					},
 				],
@@ -650,7 +690,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Pile foundation",
 						sub: "For high loads / soft ground",
 					},
-					{ icon: "❓", name: "As per drawing", notSure: false },
+					{ icon: "❓", name: "As per drawing", sub: "" },
 				],
 			},
 			{
@@ -696,7 +736,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Shoring / retaining walls",
 						sub: "Adjacent structures",
 					},
-					{ icon: "❓", name: "No additional scope", notSure: false },
+					{ icon: "❓", name: "No additional scope", sub: "" },
 				],
 			},
 			{
@@ -731,7 +771,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					},
 					{ icon: "🔧", name: "Structural repair / strengthening", sub: "" },
 					{ icon: "➕", name: "Extension / addition to existing", sub: "" },
-					{ icon: "❓", name: "As per architect drawing", notSure: false },
+					{ icon: "❓", name: "As per architect drawing", sub: "" },
 				],
 			},
 			{
@@ -744,7 +784,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					{ icon: "🧱", name: "M20 (standard residential)", sub: "" },
 					{ icon: "💪", name: "M25 (recommended for G+2+)", sub: "" },
 					{ icon: "🏗️", name: "M30 (commercial / heavy load)", sub: "" },
-					{ icon: "❓", name: "As per structural drawing", notSure: false },
+					{ icon: "❓", name: "As per structural drawing", sub: "" },
 				],
 			},
 			{
@@ -787,7 +827,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					{ icon: "🏊", name: "Water sump / OHT", sub: "" },
 					{ icon: "🏗️", name: "Compound wall", sub: "" },
 					{ icon: "🌿", name: "Boundary + gate foundation", sub: "" },
-					{ icon: "❓", name: "Standard scope only", notSure: false },
+					{ icon: "❓", name: "Standard scope only", sub: "" },
 				],
 			},
 			{
@@ -845,7 +885,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 						name: "Mix — tiles + wood",
 						sub: "Common in Indian homes",
 					},
-					{ icon: "❓", name: "Architect to decide", notSure: false },
+					{ icon: "❓", name: "Architect to decide", sub: "" },
 				],
 			},
 			{
@@ -898,7 +938,7 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 					{ icon: "🚿", name: "Master bath — premium fittings", sub: "" },
 					{ icon: "🖼️", name: "Feature wall / wallpaper", sub: "" },
 					{ icon: "🌿", name: "Landscape / outdoor area", sub: "" },
-					{ icon: "❓", name: "Standard scope", notSure: false },
+					{ icon: "❓", name: "Standard scope", sub: "" },
 				],
 			},
 			{
@@ -919,8 +959,14 @@ function getTradeSlides(tradeId: string): TradeSlide[] {
 			{ id: "done", title: "Interior template complete!", sub: "" },
 		],
 	};
-	return base[tradeId] || base.tiling;
+	return base[tradeId] ?? base.tiling;
 }
+
+// ─── Answer State ─────────────────────────────────────────────────────────────
+
+type AnsState = Record<string, string>;
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 function TradeTemplateScreen() {
 	const { tradeId } = Route.useParams();
@@ -928,19 +974,13 @@ function TradeTemplateScreen() {
 	const navigate = useNavigate();
 	const markTradeDone = useProjectStore((s) => s.markTradeDone);
 
-	// Grab the base definition for colors and icons
 	const allDefs = { ...TRADE_DEFS, ...BUILDING_TRADE_DEFS };
 	const def = allDefs[tradeId as keyof typeof allDefs];
 	const slides = getTradeSlides(tradeId);
 
 	const [slide, setSlide] = useState(0);
 	const [animKey, setAnimKey] = useState(0);
-
-	// Generic answer state instead of hardcoded fields
-	const [ans, setAns] = useState<Record<string, any>>({
-		len: "",
-		wid: "",
-	});
+	const [ans, setAns] = useState<AnsState>({ len: "", wid: "" });
 
 	if (!def || !slides) return <div>Trade not found</div>;
 
@@ -951,29 +991,27 @@ function TradeTemplateScreen() {
 	const area =
 		ans.len && ans.wid ? parseInt(ans.len, 10) * parseInt(ans.wid, 10) : 0;
 
-	const sel = (f: string, v: any) => setAns((a) => ({ ...a, [f]: v }));
+	const sel = (f: string, v: string) => setAns((a) => ({ ...a, [f]: v }));
+
 	const go = (d: number) => {
-		setSlide((s) => s + d);
+		setSlide((prev) => prev + d);
 		setAnimKey((k) => k + 1);
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
-	const canNext = () => {
-		if (s.required && s.field) return !!ans[s.field];
+	// Narrowed by discriminated union — no `any` needed
+	const canNext = (): boolean => {
+		if (s.id === "options" && s.required) return !!ans[s.field];
 		if (s.id === "size") return !!(ans.len && ans.wid);
-		if (s.id === "checks" && s.checks) {
-			return s.checks.every((c: any) => !!ans[c.f]);
-		}
+		if (s.id === "checks") return s.checks.every((c: SlideCheck) => !!ans[c.f]);
 		return true;
 	};
 
 	const handleDone = () => {
 		if (projectId) {
-			// PROJECT FLOW: Mark done in Zustand and return to Hub
 			markTradeDone(tradeId);
 			navigate({ to: "/project/$projectId", params: { projectId } });
 		} else {
-			// SINGLE JOB FLOW: Proceed to review screen
 			navigate({ to: "/trade/$tradeId/review", params: { tradeId } });
 		}
 	};
@@ -992,7 +1030,7 @@ function TradeTemplateScreen() {
 
 	return (
 		<div className="slide-wrap">
-			{/* Trade color accent bar at top */}
+			{/* Trade color accent bar */}
 			<div style={{ height: 4, background: ac }} />
 			<div className="slide-progress-bar" style={{ marginTop: 0 }}>
 				<div
@@ -1043,10 +1081,10 @@ function TradeTemplateScreen() {
 					className="anim"
 					style={{ width: "100%", animationDelay: "0.12s" }}
 				>
-					{/* GENERIC OPTIONS LIST */}
-					{s.id === "options" && s.opts && (
+					{/* OPTIONS LIST — discriminated union narrows s.field and s.opts here */}
+					{s.id === "options" && (
 						<div className="option-list">
-							{s.opts.map((o) => (
+							{s.opts.map((o: SlideOpt) => (
 								<button
 									type="button"
 									key={o.name}
@@ -1082,10 +1120,10 @@ function TradeTemplateScreen() {
 						</div>
 					)}
 
-					{/* GENERIC GRID */}
-					{s.id === "grid" && s.opts && (
+					{/* GRID — discriminated union narrows s.field and s.opts here */}
+					{s.id === "grid" && (
 						<div className="option-grid">
-							{s.opts.map((o: any) => (
+							{s.opts.map((o: SlideOpt) => (
 								<button
 									type="button"
 									key={o.name}
@@ -1099,7 +1137,7 @@ function TradeTemplateScreen() {
 								>
 									<div
 										className="option-card-thumb"
-										style={{ background: o.bg || def.color.bg }}
+										style={{ background: o.bg ?? def.color.bg }}
 									>
 										{o.icon}
 									</div>
@@ -1117,10 +1155,10 @@ function TradeTemplateScreen() {
 						</div>
 					)}
 
-					{/* GENERIC CHECKS */}
-					{s.id === "checks" && s.checks && (
+					{/* CHECKS — discriminated union narrows s.checks here */}
+					{s.id === "checks" && (
 						<div className="check-group">
-							{s.checks.map((c: any) => (
+							{s.checks.map((c: SlideCheck) => (
 								<div key={c.f} className="check-card">
 									<div className="check-question">
 										<span style={{ fontSize: 18 }}>{c.icon}</span>
@@ -1152,7 +1190,7 @@ function TradeTemplateScreen() {
 						</div>
 					)}
 
-					{/* SIZE INPUTS */}
+					{/* SIZE */}
 					{s.id === "size" && (
 						<>
 							<div className="meas-card">
@@ -1209,15 +1247,17 @@ function TradeTemplateScreen() {
 					{/* PHOTOS */}
 					{s.id === "photos" && (
 						<>
-							{[
-								{
-									icon: "📷",
-									main: "Upload Photos",
-									sub: "Minimum 2 photos required",
-								},
-								{ icon: "✏️", main: "Upload Sketch", sub: "(optional)" },
-								{ icon: "🎬", main: "Upload Video", sub: "(optional)" },
-							].map((u) => (
+							{(
+								[
+									{
+										icon: "📷",
+										main: "Upload Photos",
+										sub: "Minimum 2 photos required",
+									},
+									{ icon: "✏️", main: "Upload Sketch", sub: "(optional)" },
+									{ icon: "🎬", main: "Upload Video", sub: "(optional)" },
+								] satisfies Array<{ icon: string; main: string; sub: string }>
+							).map((u) => (
 								<div key={u.main} className="upload-option">
 									<div
 										className="upload-icon-box"
@@ -1240,23 +1280,25 @@ function TradeTemplateScreen() {
 					{/* TIMELINE */}
 					{s.id === "timeline" && (
 						<div className="option-list">
-							{[
-								{
-									icon: "⚡",
-									name: "Urgent (within 2 weeks)",
-									sub: "Priority — may cost more",
-								},
-								{
-									icon: "📋",
-									name: "Soon (1–2 months)",
-									sub: "Standard scheduling",
-								},
-								{
-									icon: "✅",
-									name: "Flexible (2–3 months)",
-									sub: "Best rates possible",
-								},
-							].map((t) => (
+							{(
+								[
+									{
+										icon: "⚡",
+										name: "Urgent (within 2 weeks)",
+										sub: "Priority — may cost more",
+									},
+									{
+										icon: "📋",
+										name: "Soon (1–2 months)",
+										sub: "Standard scheduling",
+									},
+									{
+										icon: "✅",
+										name: "Flexible (2–3 months)",
+										sub: "Best rates possible",
+									},
+								] satisfies Array<{ icon: string; name: string; sub: string }>
+							).map((t) => (
 								<button
 									type="button"
 									key={t.name}
@@ -1319,7 +1361,6 @@ function TradeTemplateScreen() {
 					<button type="button" className="btn btn-ghost" onClick={handleBack}>
 						← {slide === 0 ? (projectId ? "Project Hub" : "Search") : "Back"}
 					</button>
-
 					{slide < total - 1 ? (
 						<button
 							type="button"

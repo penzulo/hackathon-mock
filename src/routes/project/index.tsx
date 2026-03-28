@@ -83,7 +83,8 @@ function ProjectTypeScreen() {
 					}}
 				>
 					{PROJECTS.map((p, i) => (
-						<div
+						<button
+							type="button"
 							key={p.id}
 							className="anim"
 							style={{
@@ -164,7 +165,7 @@ function ProjectTypeScreen() {
 								</div>
 								{/* Cost & Duration Block here (kept from monolith) */}
 							</div>
-						</div>
+						</button>
 					))}
 				</div>
 			</div>
@@ -175,12 +176,14 @@ function ProjectTypeScreen() {
 				</span>
 				<div className="ab-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() => navigate({ to: "/" })}
 					>
 						← Back
 					</button>
 					<button
+						type="button"
 						className="btn btn-purple"
 						disabled={!selected}
 						onClick={handleStart}

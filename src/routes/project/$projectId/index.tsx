@@ -184,6 +184,7 @@ function TradeHubScreen() {
 					</button>
 					{allDone && (
 						<button
+							type="button"
 							className="btn btn-green"
 							onClick={() =>
 								navigate({
