@@ -220,81 +220,56 @@ body { font-family:'Lato',sans-serif; background:${T.bg}; color:${T.ink}; min-he
 @keyframes textFadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 /* --- MOBILE RESPONSIVE OVERRIDES --- */
 @media (max-width: 768px) {
-  /* --- Topbar Mobile Grid Fix --- */
+  /* 1. Global Container Fixes */
+  .page { padding: 24px 16px 80px !important; overflow-x: hidden; width: 100%; box-sizing: border-box; }
+  .slide-body { padding: 32px 16px 100px !important; overflow-x: hidden; width: 100%; box-sizing: border-box; }
+  .flow-header { padding: 0 16px !important; }
+  
+  /* 2. Topbar Grid Fix */
   .topbar { 
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: 
-      "logo profile"
-      "nav nav";
-    padding: 12px 16px; 
-    height: auto; 
-    gap: 12px 0; 
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-areas: "logo profile" "nav nav" !important;
+    padding: 12px 16px !important; 
+    height: auto !important; 
+    gap: 12px 0 !important; 
   }
-  
-  .topbar > a { grid-area: logo; align-self: center; }
+  .topbar a { grid-area: logo; align-self: center; }
   .topbar-right { grid-area: profile; align-self: center; }
-  
-  /* Hide the name string, keep the avatar */
   .topbar-name { display: none; }
-
-  /* Make nav a neat, scrollable horizontal row */
+  
+  /* 3. Scrollable Nav & Steps */
   .nav { 
     grid-area: nav;
-    width: 100%;
-    flex-wrap: nowrap; 
-    justify-content: flex-start; 
-    overflow-x: auto; /* Allows swiping left/right */
+    width: 100% !important;
+    flex-wrap: nowrap !important; 
+    justify-content: flex-start !important; 
+    overflow-x: auto !important; 
     padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
-    scrollbar-width: none; /* Hides scrollbar in Firefox */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  
-  /* Hides scrollbar in Chrome/Safari/Edge */
   .nav::-webkit-scrollbar { display: none; }
+  .flow-steps { width: 100%; max-width: 100%; overflow-x: auto; padding-bottom: 8px; justify-content: flex-start; }
 
-  /* Shrink nav buttons slightly and prevent text from wrapping */
-  .nav-btn {
-    white-space: nowrap;
-    padding: 6px 12px;
+  /* 4. Fix Hardcoded Grids breaking out of frame */
+  .quotes-grid, .feature-row, .profile-grid, .option-grid, .meas-inputs { 
+    grid-template-columns: 1fr !important; 
+    gap: 12px !important; 
   }
-
-  /* Fix heavy paddings */
-  .flow-header { padding: 0 16px; }
-  .page { padding: 24px 16px 80px; }
-  .action-bar { padding: 14px 16px; flex-wrap: wrap; gap: 12px; justify-content: center; }
-  .slide-body { padding: 32px 16px 100px; }
-
-  /* Fix hardcoded grids breaking out of frame */
-  .quotes-grid { grid-template-columns: 1fr; gap: 12px; }
-  .feature-row { grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
-  .profile-grid { grid-template-columns: 1fr; gap: 12px; }
-  .option-grid { grid-template-columns: 1fr; }
-  .meas-inputs { grid-template-columns: 1fr; }
   
-  /* Fix specific components for small screens */
-  .profile-hero { flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; gap: 16px; }
+  /* 5. Specific Component Shrinking */
+  .profile-hero { flex-direction: column; align-items: center; text-align: center; padding: 24px 16px !important; gap: 16px !important; }
   .verified-pill { margin: 0 auto; align-self: center; }
-  .search-h1 { font-size: 32px; }
-  .search-sub { font-size: 15px; }
+  .search-h1 { font-size: 32px !important; }
+  .search-sub { font-size: 15px !important; }
+  .search-input, .search-go { padding: 12px 16px !important; font-size: 14px !important; }
   
-  /* Allow horizontal scrolling for flow steps if they are too long */
-  .flow-steps { width: 100%; max-width: 100vw; overflow-x: auto; padding-bottom: 8px; justify-content: flex-start; }
-}
-  /* Slim down the chunky search bar */
-  .search-input { 
-    padding: 12px 16px; 
-    font-size: 14px; 
+  /* 6. Sticky Action Bars */
+  .action-bar, .slide-nav { 
+    padding: 14px 16px !important; 
+    flex-wrap: wrap; 
+    gap: 12px; 
+    justify-content: center; 
   }
-  
-  .search-go { 
-    padding: 12px 16px; 
-    font-size: 14px; 
-    white-space: nowrap; /* Prevents the text from stacking weirdly */
-  }
-
-  /* Optional: Shrink the quick-search chips slightly to match */
-  .chip {
-    padding: 6px 12px;
-    font-size: 12px;
-  }`;
+}`;
