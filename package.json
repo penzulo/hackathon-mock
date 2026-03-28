@@ -9,7 +9,8 @@
 		"lint": "biome lint --write",
 		"preview": "vite preview",
 		"format": "biome format --write",
-		"check": "biome check --write"
+		"check": "biome check --write",
+		"check:unsafe": "biome check --write --unsafe"
 	},
 	"dependencies": {
 		"@tanstack/react-router": "^1.168.3",

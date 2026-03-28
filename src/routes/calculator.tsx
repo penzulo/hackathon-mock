@@ -1014,7 +1014,7 @@ const resolveProductCode = (
 	isCeiling,
 ) => {
 	if (isCeiling) return PRODUCT_CODE_MAP[`ceiling_${grade}`] || "PR-UNKNOWN";
-	if (grade === "whitewash") return PRODUCT_CODE_MAP["whitewash"];
+	if (grade === "whitewash") return PRODUCT_CODE_MAP.whitewash;
 	if (grade === "distemper" && distemperType)
 		return PRODUCT_CODE_MAP[`distemper_${distemperType}`] || "PR-UNKNOWN";
 	if (finish && variant)

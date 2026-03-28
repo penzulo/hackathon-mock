@@ -3,6 +3,8 @@ import { useState } from "react";
 import { FlowSteps } from "@/components/layout/FlowSteps";
 import { T } from "@/lib/theme";
 import { BUILDING_TRADE_DEFS, SINGLE_STEPS, TRADE_DEFS } from "@/lib/tradeDefs";
+import type { LineItemsMap } from "@/types/quotes";
+import type { Vendor } from "@/types/vendor";
 
 export const Route = createFileRoute("/trade/$tradeId/quotes")({
 	component: SingleJobQuotesScreen,
@@ -85,7 +87,7 @@ const MOCK_VENDORS = [
 	},
 ];
 
-const MOCK_LINE_ITEMS: Record<number, any> = {
+const MOCK_LINE_ITEMS: LineItemsMap = {
 	1: [
 		{
 			category: "Demolition & Prep",
@@ -152,13 +154,14 @@ function ViewQuoteModal({
 	vendor,
 	onClose,
 }: {
-	vendor: any;
+	vendor: Vendor;
 	onClose: () => void;
 }) {
 	const data = MOCK_LINE_ITEMS[vendor.id] || MOCK_LINE_ITEMS[2];
 
 	return (
-		<div
+		<button
+			type="button"
 			style={{
 				position: "fixed",
 				inset: 0,
@@ -171,7 +174,8 @@ function ViewQuoteModal({
 			}}
 			onClick={onClose}
 		>
-			<div
+			<button
+				type="button"
 				style={{
 					background: T.white,
 					borderRadius: 16,
@@ -229,7 +233,7 @@ function ViewQuoteModal({
 					</button>
 				</div>
 				<div style={{ padding: "20px 24px" }}>
-					{data.map((section: any) => (
+					{data.map((section) => (
 						<div key={section.category} style={{ marginBottom: 20 }}>
 							<div
 								style={{
@@ -272,7 +276,7 @@ function ViewQuoteModal({
 									</tr>
 								</thead>
 								<tbody>
-									{section.items.map((item: any, ii: number) => (
+									{section.items.map((item, ii: number) => (
 										<tr
 											key={item.name}
 											style={{
@@ -391,8 +395,8 @@ function ViewQuoteModal({
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</button>
+		</button>
 	);
 }
 
@@ -400,7 +404,7 @@ function ViewQuoteModal({
 function SingleJobQuotesScreen() {
 	const { tradeId } = Route.useParams();
 	const navigate = useNavigate();
-	const [viewQuoteVendor, setViewQuoteVendor] = useState<any>(null);
+	const [viewQuoteVendor, setViewQuoteVendor] = useState<Vendor | null>(null);
 
 	const allDefs = { ...TRADE_DEFS, ...BUILDING_TRADE_DEFS };
 	const tradeDef = allDefs[tradeId as keyof typeof allDefs];
@@ -469,14 +473,15 @@ function SingleJobQuotesScreen() {
 								<div className="price-big">{v.price}</div>
 								<div className="price-note">all-in estimate</div>
 								{[
-									["⏱", "Lead time: " + v.eta],
-									["🛡", "Warranty: " + v.warranty],
+									["⏱", `Lead time: ${v.eta}`],
+									["🛡", `Warranty: ${v.warranty}`],
 									[
 										v.verified ? "✅" : "⚠️",
 										v.verified ? "Identity Verified" : "Not verified",
 									],
-									["💼", v.jobs + " completed jobs"],
+									["💼", `${v.jobs} completed jobs`],
 								].map(([ic, tx], j) => (
+									// biome-ignore lint/suspicious/noArrayIndexKey: Miniscule performance difference
 									<div key={j} className="qv-detail">
 										<span>{ic}</span>
 										<span>{tx}</span>
@@ -486,6 +491,7 @@ function SingleJobQuotesScreen() {
 							</div>
 							<div className="qv-footer">
 								<button
+									type="button"
 									className="btn-sm btn-sm-p"
 									onClick={() =>
 										navigate({
@@ -497,6 +503,7 @@ function SingleJobQuotesScreen() {
 									Accept Quote
 								</button>
 								<button
+									type="button"
 									className="btn-sm btn-sm-o"
 									style={{ flex: "none" }}
 									onClick={() => setViewQuoteVendor(v)}
@@ -504,6 +511,7 @@ function SingleJobQuotesScreen() {
 									View Quote
 								</button>
 								<button
+									type="button"
 									className="btn-sm btn-sm-o"
 									style={{ flex: "none" }}
 									onClick={() =>
@@ -527,6 +535,7 @@ function SingleJobQuotesScreen() {
 				</span>
 				<div className="ab-right">
 					<button
+						type="button"
 						className="btn btn-ghost"
 						onClick={() =>
 							navigate({ to: "/trade/$tradeId/review", params: { tradeId } })
